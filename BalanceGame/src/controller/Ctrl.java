@@ -43,13 +43,10 @@ public class Ctrl {
 //			1.로그인
 //			3.문제풀기
 //			4.지문출력
-<<<<<<< HEAD
 			userView.printUserMenuLogout();
 			int action = commonView.inputAction();
-=======
 //			userView.printUserMenu();
-			int action = 0;
->>>>>>> e409353f145d19e400ea3e8676d26daa6da6d23a
+	
 			if (action == 0) {
 				break;
 			} else if (action == 1) {
