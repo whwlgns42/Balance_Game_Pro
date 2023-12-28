@@ -8,9 +8,7 @@ public class ContentAnswerDTO {
     private String content;
     private String searchCondition;
 
-    private int answerCnt_A;
-    private int answerCnt_B;
-     
+
     
 //    private Date reg_date;
     
@@ -24,18 +22,7 @@ public class ContentAnswerDTO {
 	public void setSearchCondition(String searchCondition) {
 		this.searchCondition = searchCondition;
 	}
-	public int getAnswerCnt_A() {
-		return answerCnt_A;
-	}
-	public void setAnswerCnt_A(int answerCnt_A) {
-		this.answerCnt_A = answerCnt_A;
-	}
-	public int getAnswerCnt_B() {
-		return answerCnt_B;
-	}
-	public void setAnswerCnt_B(int answerCnt_B) {
-		this.answerCnt_B = answerCnt_B;
-	}
+	
 	public void setIdx(int idx) {
 		this.idx = idx;
 	}
