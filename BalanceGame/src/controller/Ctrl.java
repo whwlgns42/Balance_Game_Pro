@@ -3,7 +3,9 @@ package controller;
 import java.util.ArrayList;
 
 import model.UserComment.UserCommentDAO;
+import model.UserComment.UserCommentDTO;
 import model.content.ContentAnswerDAO;
+import model.content.ContentAnswerDTO;
 import model.crawlling.Crawlling;
 import model.question.QuestionDAO;
 import model.question.QuestionDTO;
@@ -21,12 +23,12 @@ public class Ctrl {
 	private UserDTO loginINFO;
 	private UserView userView;
 	private CommonView commonView;
+
 	public Ctrl() {
 		answerDAO = new ContentAnswerDAO();
 		questionDAO = new QuestionDAO();
 		commentDAO = new UserCommentDAO();
 		userDAO = new UserDAO();
-		commonView = new CommonView();
 		loginINFO = null;
 	}
 
@@ -35,7 +37,6 @@ public class Ctrl {
 		for (QuestionDTO questionData : crawResults) { // TODO 컨트롤에서 데이터 확인후 나중에 삭제해주세요
 			System.out.println(questionData);
 		}
-	
 
 		while (true) {
 //			한글코딩
@@ -44,39 +45,100 @@ public class Ctrl {
 //			1.로그인
 //			3.문제풀기
 //			4.지문출력
-//			userView.printUserMenuLogout();
-			int action = commonView.inputAction();
-//			userView.printUserMenu();
-	
+
+			userView.printUserMenu();
+			if (loginINFO == null) {
+				userView.printLoginUserMenu();
+			} else {
+				userView.printLogoutUserMenu();
+			}
+			int action = commonView.userMenuAction();
+
 			if (action == 0) {
 				break;
 			} else if (action == 1) {
 //				   로그인 선택시
 //			      뷰에게 아이디,비밀번호 받기 (뷰)
+				UserDTO dto = userView.signIn();
+
 //			      모델에게 selectOne    (유저모델)
-//			      실패시 실패 뷰      (뷰)
+				dto = userDAO.selectOne(dto);
+				if (dto == null) {
+//				      실패시 실패 뷰      (뷰)
+					userView.printFalse();
+					continue;
+				}
 //			      성공시 성공 뷰      (뷰)
-//			         로그인 정보 저장   (컨트롤)
+				userView.printTrue();
+//		         로그인 정보 저장   (컨트롤)
+				loginINFO = dto;
+
 			} else if (action == 2) {
+				Boolean flag = true;
+				while (flag) {
 //			    문제풀기 선택시         
 //	            밸런스 게임   - > 문제 끝내기 선택   
+					QuestionDTO questionDTO = new QuestionDTO();
+					questionDTO.setSearchCondition("문제생성");
 //	            모델에게 selectOne으로 랜덤으로 받아와 (질문모델)
-//	      문제를 뷰로 출력 (뷰)
+					questionDTO = questionDAO.selectOne(questionDTO);
+//	     		 문제를 뷰로 출력 (뷰)
+					userView.selectOne(questionDTO);
+					ContentAnswerDTO data = userView.answer();
 //	            뷰에게 사용자가 답변을 선택받으면   (뷰)
+					data.setQuest_idx(questionDTO.getQid());// 질문 pk 저장
+					data.setUser_idx(loginINFO.getUid());// 유저 pk 저장
 //	           모델에게 선택 값을 insert      (답변모델)
-//	            결과를 보여주기 위해      (뷰)
-//	            모델에게 해당 질문의 사용자 답변들을 모두 취합해 (뷰)
+					if (!answerDAO.insert(data)) {
+						userView.printFalse();
+						continue;
+					}
+//	            결과를 보여주기 위해  
+//	            모델에게 해당 질문의 사용자 답변들을 모두 취합해 (답변모델)
+					ContentAnswerDTO answerDTO = new ContentAnswerDTO();
+
+					answerDTO.setSearchCondition("질문답변개수");
+					answerDTO.setQuest_idx(questionDTO.getQid());
+					ArrayList<ContentAnswerDTO> datas = answerDAO.selectAll(answerDTO);
+
 //	            뷰에게 퍼센트로 나타낸다 -> 답변개수/총개수 *100   (뷰)
+					// 결과 확인
+					// userView.printComment(data);
+
+					while (true) {
+						UserCommentDTO commentDTO = new UserCommentDTO();
+						commentDTO.setQuest_idx(questionDTO.getQid());
+						ArrayList<UserCommentDTO> comments = commentDAO.selectAll(commentDTO);
 //	            모델에게 해당질문의 댓글들을 받아온다 ->    (댓글모델)
+
+						userView.printComment(comments);
 //	            밑에 다른 사용자들이 달아둔 댓글들을 뷰로 출력하고 (뷰)
+
 //	            댓글을 달거나 다음문제 풀기 선택지를 준다(뷰)
+						action = userView.inputNext();
+						if (action == 1) {
 //	            만약 다음 문제 풀기 선택을 하면 다음문제로 넘어간다(뷰)
-//	            댓글을 단다면 (뷰)
-//	            뷰에게 댓글을 입력받고 (뷰)
-//	           모델에게 insert를 한다   (댓글모델)
-//	            다시 모델에게 해당질문의 댓글들을 받아온다 -> 입력한 댓글과 전에 있던 댓글 확인 가능   (댓글모델)
-//	            밑에 다른 사용자들이 달아둔 댓글들을 뷰로 출력하고     (뷰)
-//	           댓글을 달거나 다음문제 풀기 선택지를 준다(뷰)
+							break;
+						} else if (action == 2) {
+							flag=false;
+							break;
+						} else if (action == 3) {
+//	           				댓글을 단다면 (뷰)
+							// 뷰에게 댓글을 입력받고 (뷰)
+							commentDTO= userView.writeComment();
+//			           		모델에게 insert를 한다   (댓글모델)
+							if(!commentDAO.insert(commentDTO)) {
+								userView.printFalse();
+								continue;
+							}
+//				            다시 모델에게 해당질문의 댓글들을 받아온다 -> 입력한 댓글과 전에 있던 댓글 확인 가능   (댓글모델)
+//				            밑에 다른 사용자들이 달아둔 댓글들을 뷰로 출력하고     (뷰)
+//				           댓글을 달거나 다음문제 풀기 선택지를 준다(뷰)
+						}
+					}
+					
+				}
+
 //
 			} else if (action == 3) {
 //				   지문출력 선택시
@@ -167,3 +229,4 @@ public class Ctrl {
 	}
 
 }
+
