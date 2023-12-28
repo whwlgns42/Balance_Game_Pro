@@ -129,7 +129,7 @@ public class UserDAO {
 		conn = JDBCUtil.connect();
 		try {
 			pstmt = conn.prepareStatement(DELETE);
-			pstmt.setInt(1, uDTO.getUid());
+			pstmt.setInt(1, uDTO.getIdx());
 			int result = pstmt.executeUpdate();
 			if (result <= 0) {
 				return false;
