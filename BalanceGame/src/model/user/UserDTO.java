@@ -9,10 +9,16 @@ public class UserDTO {
 	private String gender;
 	private int age;
 //	private Date reg_date;
+	private String searchCondition;
 	
 	
 	
-	
+	public String getSearchCondition() {
+		return searchCondition;
+	}
+	public void setSearchCondition(String searchCondition) {
+		this.searchCondition = searchCondition;
+	}
 	public int getUid() {
 		return uid;
 	}

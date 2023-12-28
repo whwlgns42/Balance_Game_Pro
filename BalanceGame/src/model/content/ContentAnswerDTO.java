@@ -6,6 +6,7 @@ public class ContentAnswerDTO {
     private int user_idx; // User 테이블의 idx를 참조
     private int quest_idx; // Question 테이블의 idx를 참조
     private String content;
+    private String searchCondition;
 
     private int answerCnt_A;
     private int answerCnt_B;
@@ -16,6 +17,12 @@ public class ContentAnswerDTO {
     
 	public int getIdx() {
 		return idx;
+	}
+	public String getSearchCondition() {
+		return searchCondition;
+	}
+	public void setSearchCondition(String searchCondition) {
+		this.searchCondition = searchCondition;
 	}
 	public int getAnswerCnt_A() {
 		return answerCnt_A;
