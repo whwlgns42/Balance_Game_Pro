@@ -33,6 +33,6 @@ public class Ctrl {
 			System.out.println(questionData);
 		}
 	
-	}
+	} 
 	
 }
