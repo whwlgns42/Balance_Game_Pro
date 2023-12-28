@@ -1,5 +1,4 @@
 package model.crawlling;
-
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -26,7 +25,7 @@ public class Crawlling {
 		}
 		// 문제 랜덤으로 데이터 가져오기
 		Elements question = doc.select(".tt_article_useless_p_margin span:contains(#)");
-
+		
 		int i = 0;
 		ArrayList<QuestionDTO> datas = new ArrayList<QuestionDTO>();
 		QuestionDTO questionDTO = null;

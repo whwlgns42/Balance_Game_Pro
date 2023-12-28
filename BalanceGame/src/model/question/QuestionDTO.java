@@ -7,9 +7,16 @@ public class QuestionDTO {
     private String content_B;
     private int writer; // 이 경우, 작성자는 User 테이블의 idx 컬럼을 참조할 수 있습니다.
 //    private Date reg_date;
+    private String searchCondition;
     
     
     
+	public String getSearchCondition() {
+		return searchCondition;
+	}
+	public void setSearchCondition(String searchCondition) {
+		this.searchCondition = searchCondition;
+	}
 	public int getQid() {
 		return qid;
 	}

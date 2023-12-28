@@ -6,10 +6,16 @@ public class UserCommentDTO {
     private int user_idx; // User 테이블의 idx를 참조
     private String user_comment;
 //    private Date reg_date;	// 날짜 만들기
-
+    private String searchCondition;
     
     
-    public int getIdx() {
+    public String getSearchCondition() {
+		return searchCondition;
+	}
+	public void setSearchCondition(String searchCondition) {
+		this.searchCondition = searchCondition;
+	}
+	public int getIdx() {
 		return idx;
 	}
 	public void setIdx(int idx) {
