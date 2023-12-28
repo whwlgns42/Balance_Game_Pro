@@ -9,23 +9,19 @@ import model.user.UserDTO;
 
 public class UserView extends View {
 	
-	//사용자 메뉴(로그인 시)
+	//사용자 통합 메뉴
+	public void printUserMenu() {
+	      System.out.println("1.게임하기");
+	      System.out.println("2.지문보기");
+	}
+	//사용자 메뉴 (로그인 시)   
 	public void printLoginUserMenu() {
-		System.out.println("1.로그인");
-		System.out.println("2.게임하기");
-		System.out.println("3.지문보기");
+	      System.out.println("3.로그인");
 	}
-	//사용자 메뉴(로그아웃 시)
+	//사용자 메뉴 (로그아웃 시)
 	public void printLogoutUserMenu() {
-		System.out.println("4.로그아웃");
-		System.out.println("5.회원탈퇴");
-	}
-	//로그인 시 메뉴
-	public void printUserMenuLogin() {
-		System.out.println("3.게임하기");
-		System.out.println("4.지문보기");
-		System.out.println("5.결과출력");
-		System.out.println("6.로그아웃");
+	      System.out.println("4.로그아웃");
+	      System.out.println("5.회원탈퇴");
 	}
 	
 	//결과출력
