@@ -1,8 +1,12 @@
 package controller;
 
+import java.util.ArrayList;
+
 import model.UserComment.UserCommentDAO;
 import model.content.ContentAnswerDAO;
+import model.crawlling.Crawlling;
 import model.question.QuestionDAO;
+import model.question.QuestionDTO;
 import model.user.UserDAO;
 import model.user.UserDTO;
 import view.UserView;
@@ -16,16 +20,21 @@ public class Ctrl {
 	private UserDTO loginINFO;
 	private UserView userView;
 
-	
-	public Ctrl(){
-		answerDAO=new ContentAnswerDAO();
-		questionDAO=new QuestionDAO();
-		commentDAO=new UserCommentDAO();
-		userDAO=new UserDAO();
-		loginINFO=null;
+	public Ctrl() {
+		answerDAO = new ContentAnswerDAO();
+		questionDAO = new QuestionDAO();
+		commentDAO = new UserCommentDAO();
+		userDAO = new UserDAO();
+		loginINFO = null;
 	}
+
 	public void start() {
-		while(true) {
+		ArrayList<QuestionDTO> crawResults = Crawlling.crwalling();
+		for (QuestionDTO questionData : crawResults) { // TODO 컨트롤에서 데이터 확인후 나중에 삭제해주세요
+			System.out.println(questionData);
+		}
+
+		while (true) {
 //			한글코딩
 //
 //			비로그인
@@ -33,19 +42,17 @@ public class Ctrl {
 //			3.문제풀기
 //			4.지문출력
 			userView.printUserMenu();
-			int action=0;
-			if(action==0) {
+			int action = 0;
+			if (action == 0) {
 				break;
-			}
-			else if(action==1) {
+			} else if (action == 1) {
 //				   로그인 선택시
 //			      뷰에게 아이디,비밀번호 받기 (뷰)
 //			      모델에게 selectOne    (유저모델)
 //			      실패시 실패 뷰      (뷰)
 //			      성공시 성공 뷰      (뷰)
 //			         로그인 정보 저장   (컨트롤)
-			}
-			else if(action==2) {
+			} else if (action == 2) {
 //			    문제풀기 선택시         
 //	            밸런스 게임   - > 문제 끝내기 선택   
 //	            모델에게 selectOne으로 랜덤으로 받아와 (질문모델)
@@ -66,7 +73,7 @@ public class Ctrl {
 //	            밑에 다른 사용자들이 달아둔 댓글들을 뷰로 출력하고     (뷰)
 //	           댓글을 달거나 다음문제 풀기 선택지를 준다(뷰)
 //
-			}else if(action==3) {
+			} else if (action == 3) {
 //				   지문출력 선택시
 //			      1. 모든 지문 출력(뷰)
 //			           2. 내가 풀었던 지문 출력 [로그인](뷰)
@@ -151,14 +158,7 @@ public class Ctrl {
 //			               4끝내기
 			}
 
-
-
-
-
-			
-			
-			
 		}
 	}
-	
+
 }
