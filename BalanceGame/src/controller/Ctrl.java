@@ -29,22 +29,26 @@ public class Ctrl {
 		questionDAO = new QuestionDAO();
 		commentDAO = new UserCommentDAO();
 		userDAO = new UserDAO();
+		userView = new UserView();
+		commonView = new CommonView();
 		loginINFO = null;
 	}
 
 	public void start() {
-		ArrayList<QuestionDTO> crawResults = Crawlling.crwalling();
-		for (QuestionDTO questionData : crawResults) { // TODO 컨트롤에서 데이터 확인후 나중에 삭제해주세요
-			System.out.println(questionData);
-		}
+//		ArrayList<QuestionDTO> crawResults = Crawlling.crwalling();
+//		for (QuestionDTO questionData : crawResults) { // TODO 컨트롤에서 데이터 확인후 나중에 삭제해주세요
+//			System.out.println(questionData);
+//		}
 
 		while (true) {
 //			한글코딩
 //
 //			비로그인
-//			1.로그인
-//			3.문제풀기
-//			4.지문출력
+//			1.게임하기
+//			2.지문보기
+//		   	3.로그인
+			// 4.로그아웃
+			// 5.회원 탈퇴
 
 			userView.printUserMenu();
 			if (loginINFO == null) {
@@ -57,23 +61,6 @@ public class Ctrl {
 			if (action == 0) {
 				break;
 			} else if (action == 1) {
-//				   로그인 선택시
-//			      뷰에게 아이디,비밀번호 받기 (뷰)
-				UserDTO dto = userView.signIn();
-
-//			      모델에게 selectOne    (유저모델)
-				dto = userDAO.selectOne(dto);
-				if (dto == null) {
-//				      실패시 실패 뷰      (뷰)
-					userView.printFalse();
-					continue;
-				}
-//			      성공시 성공 뷰      (뷰)
-				userView.printTrue();
-//		         로그인 정보 저장   (컨트롤)
-				loginINFO = dto;
-
-			} else if (action == 2) {
 				Boolean flag = true;
 				while (flag) {
 //			    문제풀기 선택시         
@@ -87,7 +74,11 @@ public class Ctrl {
 					ContentAnswerDTO data = userView.answer();
 //	            뷰에게 사용자가 답변을 선택받으면   (뷰)
 					data.setQuest_idx(questionDTO.getQid());// 질문 pk 저장
-					data.setUser_idx(loginINFO.getUid());// 유저 pk 저장
+					if (loginINFO != null) {
+						data.setUser_idx(loginINFO.getUid());// 유저 pk 저장
+					}else {
+						data.setUser_idx(-1);
+					}
 //	           모델에게 선택 값을 insert      (답변모델)
 					if (!answerDAO.insert(data)) {
 						userView.printFalse();
@@ -120,14 +111,16 @@ public class Ctrl {
 //	            만약 다음 문제 풀기 선택을 하면 다음문제로 넘어간다(뷰)
 							break;
 						} else if (action == 2) {
-							flag=false;
+							flag = false;
 							break;
 						} else if (action == 3) {
 //	           				댓글을 단다면 (뷰)
 							// 뷰에게 댓글을 입력받고 (뷰)
-							commentDTO= userView.writeComment();
+							commentDTO = userView.writeComment();
+							commentDTO.setQuest_idx(questionDTO.getQid());
+							commentDTO.setUser_idx(loginINFO.getUid());
 //			           		모델에게 insert를 한다   (댓글모델)
-							if(!commentDAO.insert(commentDTO)) {
+							if (!commentDAO.insert(commentDTO)) {
 								userView.printFalse();
 								continue;
 							}
@@ -136,11 +129,11 @@ public class Ctrl {
 //				           댓글을 달거나 다음문제 풀기 선택지를 준다(뷰)
 						}
 					}
-					
+
 				}
 
-//
-			} else if (action == 3) {
+			} else if (action == 2) {
+
 //				   지문출력 선택시
 //			      1. 모든 지문 출력(뷰)
 //			           2. 내가 풀었던 지문 출력 [로그인](뷰)
@@ -223,10 +216,26 @@ public class Ctrl {
 //			                     받아온 데이터 뷰 출력
 //			                     목록으로 돌아가기
 //			               4끝내기
+			} else if (action == 3) {
+//				   로그인 선택시
+//			      뷰에게 아이디,비밀번호 받기 (뷰)
+				UserDTO dto = userView.signIn();
+
+//			      모델에게 selectOne    (유저모델)
+				dto = userDAO.selectOne(dto);
+				if (dto == null) {
+//				      실패시 실패 뷰      (뷰)
+					userView.printFalse();
+					continue;
+				}
+//			      성공시 성공 뷰      (뷰)
+				userView.printTrue();
+//		         로그인 정보 저장   (컨트롤)
+				loginINFO = dto;
+
 			}
 
 		}
 	}
 
 }
-
