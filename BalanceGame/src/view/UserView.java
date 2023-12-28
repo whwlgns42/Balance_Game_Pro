@@ -10,23 +10,26 @@ import model.user.UserDTO;
 public class UserView extends View {
 	
 	//로그인 시 메뉴
-	public void printUserMenuLogin(UserDTO userDTO) {
-		System.out.println("1.게임하기");
-		System.out.println("2.지문보기");
-		if(userDTO==null) {
-			System.out.println("3.로그인");
-		}else {
-			
-			System.out.println("4.로그아웃");
-			System.out.println("5.회원탈퇴");
-		}
-		
-		System.out.println("0.게임종료");
-		
+	public void printUserMenuLogin() {
+		System.out.println("3.게임하기");
+		System.out.println("4.지문보기");
+		System.out.println("5.결과출력");
+		System.out.println("6.로그아웃");
 	}
 	//로그아웃 시 메뉴
 	public void printUserMenuLogout() {
-		
+		System.out.println("1.로그인");
+		System.out.println("2.회원탈퇴");
+		System.out.println("0.게임종료");
+	}
+	//결과출력
+	public void printUserResult() {
+		System.out.println("1.성별비율로 결과보기");
+		System.out.println("2.나이비율로 결과보기");
+	}
+	//성별비율
+	public void printGenderResult(ArrayList<UserCommentDTO>datas) {
+		System.out.println("남자비율");
 		
 	}
 	
@@ -113,5 +116,5 @@ public class UserView extends View {
 		System.out.println("2.아니오");
 		return sc.nextInt();
 	}
-	
+	//
 }
