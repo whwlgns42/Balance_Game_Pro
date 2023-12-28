@@ -83,7 +83,10 @@ public class UserView extends View {
 
 	// 문제보여주기
 	public void selectOne(QuestionDTO data) {
-		System.out.println(data);
+		System.out.println(data.getTitle());
+		System.out.println(data.getContent_A());
+		System.out.println(data.getContent_B());
+		
 	}
 
 	// 답변보여주기

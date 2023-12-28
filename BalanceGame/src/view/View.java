@@ -9,6 +9,5 @@ public class View {
 		sc = new Scanner(System.in);
 	}
 	
-	//유효성검사
 	
 }
