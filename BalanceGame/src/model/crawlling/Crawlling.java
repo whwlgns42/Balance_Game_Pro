@@ -10,8 +10,10 @@ import org.jsoup.select.Elements;
 import model.question.QuestionDTO;
 
 public class Crawlling {
+	
 
-	public ArrayList<QuestionDTO> crawling() {
+
+	public static ArrayList<QuestionDTO> crwalling() {
 		//
 		String url = "https://zico8282.tistory.com/entry/%EC%9B%B9-%ED%81%AC%EB%A1%A4%EB%A7%81-%EB%8D%B0%EC%9D%B4%ED%84%B0";
 
@@ -52,4 +54,7 @@ public class Crawlling {
 		}
 		return datas;
 	}
+		
+		
+		
 }
