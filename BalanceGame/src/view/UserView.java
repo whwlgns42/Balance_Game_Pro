@@ -66,12 +66,6 @@ public class UserView extends View {
 	public void selectOne(ContentAnswerDTO data) {
 		System.out.println(data);
 	}
-	//다음으로 넘어가기
-	public void printNext() {
-		System.out.print("다음으로 넘어가시겠습니까?");
-		System.out.println("1.네");
-		System.out.println("2.아니오");
-	}
 	//댓글입력
 	public UserCommentDTO writeComment() {
 		UserCommentDTO data = new UserCommentDTO();
@@ -88,12 +82,28 @@ public class UserView extends View {
 	}
 	//결과확인
 	
+	
 	//답안선택
 	public ContentAnswerDTO answer() {
 		ContentAnswerDTO data = new ContentAnswerDTO();
 		System.out.print("A / B");
 		data.setContent(sc.next());
 		return data;
+	}
+	//성공시
+	public void printTrue() {
+		System.out.println("성공입니다");
+	}
+	//실패시
+	public void printFalse() {
+		System.out.println("실패입니다");
+	}
+	//다음문제
+	public int inputNext() {
+		System.out.print("다음으로 넘어가시겠습니까?");
+		System.out.println("1.네");
+		System.out.println("2.아니오");
+		return sc.nextInt();
 	}
 	
 }
