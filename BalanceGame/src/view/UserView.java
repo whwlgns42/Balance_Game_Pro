@@ -9,16 +9,19 @@ import model.user.UserDTO;
 
 public class UserView extends View {
 	
-	//사용자 메뉴
-	public void printUserMenu() {
-		System.out.println("1.회원가입");
-		System.out.println("2.로그인");
-		System.out.println("3.게임하기");
-		System.out.println("4.지문보기");
-		System.out.println("6.로그아웃");
-		System.out.println("7.회원탈퇴");
+	//사용자 메뉴(로그인 시)
+	public void printLoginUserMenu() {
+		System.out.println("1.로그인");
+		System.out.println("2.게임하기");
+		System.out.println("3.지문보기");
+	}
+	//사용자 메뉴(로그아웃 시)
+	public void printLogoutUserMenu() {
+		System.out.println("4.로그아웃");
+		System.out.println("5.회원탈퇴");
 		System.out.println("0.게임종료");
 	}
+	
 	
 	//문제보여주기 
 	public void printQuestions(ArrayList<QuestionDTO> datas) {
