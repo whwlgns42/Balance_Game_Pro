@@ -36,12 +36,12 @@ public class UserDAO {
 
 			while (rs.next()) {
 				UserDTO data = new UserDTO();
-				data.setId(rs.getString("Id"));
-				data.setPw(rs.getString("Pw"));
-				data.setName(rs.getString("Name"));
-				data.setGrade(rs.getString("Grade"));
-				data.setGender(rs.getString("Gender"));
-				data.setAge(rs.getInt("Age"));
+				data.setId(rs.getString("ID"));
+				data.setPw(rs.getString("PW"));
+				data.setName(rs.getString("NAME"));
+				data.setGrade(rs.getString("GRADE"));
+				data.setGender(rs.getString("GENDER"));
+				data.setAge(rs.getInt("AGE"));
 
 			}
 
@@ -66,12 +66,12 @@ public class UserDAO {
 
 			if (rs.next()) {
 				data = new UserDTO();
-				data.setId(rs.getString("Id"));
-				data.setPw(rs.getString("Pw"));
-				data.setName(rs.getString("Name"));
-				data.setGrade(rs.getString("Grade"));
-				data.setGender(rs.getString("Gender"));
-				data.setAge(rs.getInt("Age"));
+				data.setId(rs.getString("ID"));
+				data.setPw(rs.getString("PW"));
+				data.setName(rs.getString("NAME"));
+				data.setGrade(rs.getString("GRADE"));
+				data.setGender(rs.getString("GENDER"));
+				data.setAge(rs.getInt("AGE"));
 
 			}
 			rs.close();
@@ -152,3 +152,4 @@ public class UserDAO {
 	}
 
 }
+
