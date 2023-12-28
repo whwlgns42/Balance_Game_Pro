@@ -29,34 +29,34 @@ public class QuestionDAO {
 	}
 	
 	
-//	public UserDTO selectOne(QuestionDTO questionDTO) { // 단일 검색
-//		QuestionDTO data = null;
-//		conn = JDBCUtil.connect();
-//
-//		try {
-//			pstmt = conn.prepareStatement(SELECTONE);
-//			pstmt.setInt(1, questionDTO.getQid());
-//			ResultSet rs = pstmt.executeQuery();
-//
-//			if (rs.next()) {
-//				data = new QuestionDTO();
-//				data.setQid(rs.getInt("QID"));
-//				data.setTitle(rs.getString("TITLE"));
-//				data.setContent_A(rs.getString("CONTENT_A"));
-//				data.setContent_A(rs.getString("CONTENT_A"));
-//				data.setTitle(rs.getString("TITLE"));
-//				data.setTitle(rs.getString("TITLE"));
-//			}
-//			rs.close();
-//
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		} finally {
-//			JDBCUtil.disconnect(pstmt, conn);
-//		}
-//		return data;
-//
-//	}
+	public QuestionDTO selectOne(QuestionDTO questionDTO) { // 단일 검색
+		QuestionDTO data = null;
+		conn = JDBCUtil.connect();
+
+		try {
+			pstmt = conn.prepareStatement(SELECTONE);
+			pstmt.setInt(1, questionDTO.getQid());
+			ResultSet rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				data = new QuestionDTO();
+				data.setQid(rs.getInt("QID"));
+				data.setTitle(rs.getString("TITLE"));
+				data.setContent_A(rs.getString("CONTENT_A"));
+				data.setContent_A(rs.getString("CONTENT_A"));
+				data.setTitle(rs.getString("TITLE"));
+				data.setTitle(rs.getString("TITLE"));
+			}
+			rs.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCUtil.disconnect(pstmt, conn);
+		}
+		return data;
+
+	}
 
 	// 크롤링한 문제 추가하기
 	public boolean insert(QuestionDTO questionDTO) { 
