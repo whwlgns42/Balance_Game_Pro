@@ -6,6 +6,9 @@ public class ContentAnswerDTO {
     private int user_idx; // User 테이블의 idx를 참조
     private int quest_idx; // Question 테이블의 idx를 참조
     private String content;
+    
+    
+    
 //    private Date reg_date;
     
 	public int getIdx() {

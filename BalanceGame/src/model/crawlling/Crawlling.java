@@ -1,5 +1,4 @@
 package model.crawlling;
-
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -10,8 +9,10 @@ import org.jsoup.select.Elements;
 import model.question.QuestionDTO;
 
 public class Crawlling {
+	
 
-	public ArrayList<QuestionDTO> crawling() {
+
+	public static ArrayList<QuestionDTO> crwalling() {
 		//
 		String url = "https://zico8282.tistory.com/entry/%EC%9B%B9-%ED%81%AC%EB%A1%A4%EB%A7%81-%EB%8D%B0%EC%9D%B4%ED%84%B0";
 
@@ -24,7 +25,7 @@ public class Crawlling {
 		}
 		// 문제 랜덤으로 데이터 가져오기
 		Elements question = doc.select(".tt_article_useless_p_margin span:contains(#)");
-
+		
 		int i = 0;
 		ArrayList<QuestionDTO> datas = new ArrayList<QuestionDTO>();
 		QuestionDTO questionDTO = null;
@@ -52,4 +53,7 @@ public class Crawlling {
 		}
 		return datas;
 	}
+		
+		
+		
 }
