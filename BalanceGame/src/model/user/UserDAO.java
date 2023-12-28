@@ -9,15 +9,15 @@ import java.util.ArrayList;
 import model.Util.JDBCUtil;
 
 public class UserDAO {
+    private Connection conn;
+    private PreparedStatement pstmt;
 
-	private Connection conn;
-	private PreparedStatement pstmt;
+    private static final String SELECTALL = "SELECT * FROM USERS";
+    private static final String SELECTONE = "SELECT * FROM USERS WHERE ID=?";
+    private static final String INSERT = "INSERT INTO USERS (IDX, ID, PW, NAME, GRADE, GENDER, AGE) VALUES ((SELECT NVL(MAX(IDX),0) + 1 FROM USERS),?,?,?,?,?,?)";
+    private static final String UPDATE = "UPDATE USERS SET ID=?, PW=?, NAME=?, GRADE=?, GENDER=?, AGE=? WHERE IDX=?";
+    private static final String DELETE = "DELETE FROM USERS WHERE IDX=?";
 
-	private static final String SELECTALL = "SELECT * FROM USERS";
-	private static final String SELECTONE = "SELECT * FROM USERS WHERE Id=?" + "";
-	private static final String INSERT = "INSERT INTO USERS VALUES((SELECT NVL(MAX(uDTO),0) + 1 FROM PRODUCT),?,?,?,?,?,?)";
-	private static final String UPDATE = "UPDATE USERS SET CNT=CNT-1 WHERE uDTO=?";
-	private static final String DELETE = "DELETE FROM USERS uDTO=?";
 
 	public ArrayList<UserDTO> selectAll(UserDTO uDTO) { // 전체 검색
 		ArrayList<UserDTO> datas = new ArrayList<UserDTO>();
