@@ -1,12 +1,14 @@
 package model.question;
 
+import java.util.Date;
+
 public class QuestionDTO {
 	private int qid;
 	private String title;
 	private String content_A;
     private String content_B;
     private int writer; // 이 경우, 작성자는 User 테이블의 idx 컬럼을 참조할 수 있습니다.
-//    private Date reg_date;
+    private Date reg_date;
     private String searchCondition;
     
     
@@ -47,12 +49,12 @@ public class QuestionDTO {
 	public void setWriter(int writer) {
 		this.writer = writer;
 	}
-//	public Date getReg_date() {
-//		return reg_date;
-//	}
-//	public void setReg_date(Date reg_date) {
-//		this.reg_date = reg_date;
-//	}
+	public Date getReg_date() {
+		return reg_date;
+	}
+	public void setReg_date(Date reg_date) {
+		this.reg_date = reg_date;
+	}
 	@Override
 	public String toString() {
 		return "QuestionDTO [qid=" + qid + ", title=" + title + ", content_A=" + content_A + ", content_B=" + content_B

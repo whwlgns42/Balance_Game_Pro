@@ -10,56 +10,52 @@ import model.Util.JDBCUtil;
 import model.user.UserDTO;
 
 public class QuestionDAO {
-	
 
 	private Connection conn;
 	private PreparedStatement pstmt;
 
 	private static final String SELECTALL = "";
-	private static final String SELECTONE = "SELECT * FROM user_comments WHERE QID = ?";
-	private static final String INSERT = "INSERT INTO QUESTIONS VALUES((SELECT NVL(MAX(QID),0) + 1 FROM PRODUCT),?,?,?,?,?)";
+	private static final String SELECTONE = "SELECT * FROM (SELECT * FROM QUESTIONS ORDER BY DBMS_RANDOM.VALUE) WHERE ROWNUM = 1";
+	private static final String INSERT = "INSERT INTO QUESTIONS VALUES((SELECT NVL(MAX(IDX),0) + 1 FROM PRODUCT),?,?,?,?,?)";
 	private static final String UPDATE = "";
 	private static final String DELETE = "";
 
 	public ArrayList<UserDTO> selectAll(QuestionDTO questionDTO) { // 전체 검색
 		conn = JDBCUtil.connect();
-		
 
 		return null;
 	}
-	
-	
+
 	public QuestionDTO selectOne(QuestionDTO questionDTO) { // 단일 검색
+		System.out.println(questionDTO.getSearchCondition());
 		QuestionDTO data = null;
-		conn = JDBCUtil.connect();
+		if (questionDTO.getSearchCondition().equals("문제생성")) {
+			conn = JDBCUtil.connect();
+			try {
+				pstmt = conn.prepareStatement(SELECTONE);
+				ResultSet rs = pstmt.executeQuery();
 
-		try {
-			pstmt = conn.prepareStatement(SELECTONE);
-			pstmt.setInt(1, questionDTO.getQid());
-			ResultSet rs = pstmt.executeQuery();
-
-			if (rs.next()) {
-				data = new QuestionDTO();
-				data.setQid(rs.getInt("QID"));
-				data.setTitle(rs.getString("TITLE"));
-				data.setContent_A(rs.getString("CONTENT_A"));
-				data.setContent_A(rs.getString("CONTENT_A"));
-				data.setTitle(rs.getString("TITLE"));
-				data.setTitle(rs.getString("TITLE"));
+				if (rs.next()) {
+					data = new QuestionDTO();
+					data.setQid(rs.getInt("IDX"));
+					data.setTitle(rs.getString("TITLE"));
+					data.setContent_A(rs.getString("CONTENT_A"));
+					data.setContent_B(rs.getString("CONTENT_B"));
+					data.setWriter(rs.getInt("WRITER"));
+					data.setReg_date(rs.getDate("REG_DATE"));
+				}
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				JDBCUtil.disconnect(pstmt, conn);
 			}
-			rs.close();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			JDBCUtil.disconnect(pstmt, conn);
 		}
 		return data;
-
 	}
 
 	// 크롤링한 문제 추가하기
-	public boolean insert(QuestionDTO questionDTO) { 
+	public boolean insert(QuestionDTO questionDTO) {
 		conn = JDBCUtil.connect();
 
 		try {
