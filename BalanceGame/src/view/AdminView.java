@@ -1,5 +1,9 @@
 package view;
 
+import java.util.ArrayList;
+
+import model.user.UserDTO;
+
 public class AdminView extends View {
 	//관리자메뉴
 	public void printAdminMenu() {
@@ -29,5 +33,14 @@ public class AdminView extends View {
 		System.out.println("2.거절");
 		System.out.println("0.돌아가기");
 	}
-	
+	//회원조회
+	public void selectAll(ArrayList<UserDTO> datas){
+		for(UserDTO data : datas) {
+			System.out.println(data);
+		}
+	}
+	//회원한명선택
+	public void selectOne(UserDTO data) {
+		System.out.println(data);
+	}
 }

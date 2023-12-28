@@ -15,7 +15,6 @@ public class UserView extends View {
 		System.out.println("2.로그인");
 		System.out.println("3.게임하기");
 		System.out.println("4.지문보기");
-		System.out.println("5.문제제출");
 		System.out.println("6.로그아웃");
 		System.out.println("7.회원탈퇴");
 		System.out.println("0.게임종료");
@@ -38,6 +37,8 @@ public class UserView extends View {
 	public void loginGameMenu(UserDTO user) {
 		if(user != null) {
 			System.out.print("1.댓글달기");
+			System.out.print("2.댓글수정");
+			System.out.print("3.댓글삭제");			
 		}           
 		System.out.println("0.돌아가기");
 	}
@@ -78,4 +79,10 @@ public class UserView extends View {
 		data.setUser_comment(sc.nextLine());
 		return data;
 	}
+	//비밀번호 입력
+	public void inputPW() {
+		System.out.println("비밀번호를 입력해주세요");
+		sc.next();
+	}
+	
 }
