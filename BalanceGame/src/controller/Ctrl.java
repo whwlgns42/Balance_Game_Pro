@@ -22,7 +22,12 @@ public class Ctrl {
 		loginINFO=null;
 	}
 	public void start() {
-		System.out.println("ddddd");
+		while(true) {
+			
+			
+			
+			
+		}
 	}
 	
 }

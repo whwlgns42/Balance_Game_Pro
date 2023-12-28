@@ -1,6 +1,6 @@
-package client;
+package src.client;
 
-import controller.Ctrl;
+import src.controller.Ctrl;
 
 public class Client {
 
