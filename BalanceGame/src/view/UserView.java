@@ -84,5 +84,14 @@ public class UserView extends View {
 		System.out.println("비밀번호를 입력해주세요");
 		sc.next();
 	}
+	//결과확인
+	
+	//답안선택
+	public ContentAnswerDTO answer() {
+		ContentAnswerDTO data = new ContentAnswerDTO();
+		System.out.print("A / B");
+		data.setContent(sc.next());
+		return data;
+	}
 	
 }

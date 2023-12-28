@@ -43,4 +43,6 @@ public class AdminView extends View {
 	public void selectOne(UserDTO data) {
 		System.out.println(data);
 	}
+	
+	
 }
