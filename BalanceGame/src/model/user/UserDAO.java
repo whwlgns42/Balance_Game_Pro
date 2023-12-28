@@ -39,7 +39,7 @@ public class UserDAO {
 				data.setName(rs.getString("Name"));
 				data.setGrade(rs.getString("Grade"));
 				data.setGender(rs.getString("Gender"));
-				data.setAge(rs.getInt("Age"));
+				data.setAge(rs.getInt("Age"));//나이
 
 			}
 			rs.close();
