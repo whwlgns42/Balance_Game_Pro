@@ -8,4 +8,7 @@ public class View {
 	public View() {
 		sc = new Scanner(System.in);
 	}
+	
+	//유효성검사
+	
 }
