@@ -79,7 +79,7 @@ public class UserCommentDAO {
 	}
 
 	public ArrayList<UserCommentDTO> selectAll(UserCommentDTO udto) {
-		ArrayList<UserCommentDTO> comments = new ArrayList<>();
+		ArrayList<UserCommentDTO> datas = new ArrayList<>();
 		conn = JDBCUtil.connect();
 		try {
 			pstmt = conn.prepareStatement(SELECTALL);
@@ -91,7 +91,7 @@ public class UserCommentDAO {
 				comment.setQuest_idx(rs.getInt("quest_idx"));
 				comment.setUser_idx(rs.getInt("user_idx"));
 				comment.setUser_comment(rs.getString("user_comment"));
-				comments.add(comment);
+				datas.add(comment);
 
 			}
 			rs.close();
@@ -102,12 +102,12 @@ public class UserCommentDAO {
 			JDBCUtil.disconnect(pstmt, conn);
 		}
 
-		return comments;
+		return datas;
 
 	}
 
 	public UserCommentDTO selectOne(UserCommentDTO udto) {
-		UserCommentDTO comment = null;
+		UserCommentDTO data = null;
 		conn = JDBCUtil.connect();
 
 		try {
@@ -116,11 +116,11 @@ public class UserCommentDAO {
 			ResultSet rs = pstmt.executeQuery();
 
 			if (rs.next()) {
-				comment = new UserCommentDTO();
-				comment.setIdx(rs.getInt("idx"));
-				comment.setQuest_idx(rs.getInt("quest_idx"));
-				comment.setUser_idx(rs.getInt("user_idx"));
-				comment.setUser_comment(rs.getString("user_comment"));
+				data = new UserCommentDTO();
+				data.setIdx(rs.getInt("idx"));
+				data.setQuest_idx(rs.getInt("quest_idx"));
+				data.setUser_idx(rs.getInt("user_idx"));
+				data.setUser_comment(rs.getString("user_comment"));
 			}
 			rs.close();
 		} catch (SQLException e) {
@@ -129,7 +129,7 @@ public class UserCommentDAO {
 			JDBCUtil.disconnect(pstmt, conn);
 		}
 
-		return comment;
+		return data;
 
 	}
 

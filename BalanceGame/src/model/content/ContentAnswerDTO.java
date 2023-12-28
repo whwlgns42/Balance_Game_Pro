@@ -6,13 +6,28 @@ public class ContentAnswerDTO {
     private int user_idx; // User 테이블의 idx를 참조
     private int quest_idx; // Question 테이블의 idx를 참조
     private String content;
-    
-    
+
+    private int answerCnt_A;
+    private int answerCnt_B;
+     
     
 //    private Date reg_date;
     
+    
 	public int getIdx() {
 		return idx;
+	}
+	public int getAnswerCnt_A() {
+		return answerCnt_A;
+	}
+	public void setAnswerCnt_A(int answerCnt_A) {
+		this.answerCnt_A = answerCnt_A;
+	}
+	public int getAnswerCnt_B() {
+		return answerCnt_B;
+	}
+	public void setAnswerCnt_B(int answerCnt_B) {
+		this.answerCnt_B = answerCnt_B;
 	}
 	public void setIdx(int idx) {
 		this.idx = idx;
