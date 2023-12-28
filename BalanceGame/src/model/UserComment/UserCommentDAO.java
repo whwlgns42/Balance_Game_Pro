@@ -22,7 +22,7 @@ public class UserCommentDAO {
 	public boolean insert(UserCommentDTO udto) {
 		conn = JDBCUtil.connect();
 		try {
-
+			
 			pstmt = conn.prepareStatement(INSERT);
 			pstmt.setInt(1, udto.getQuest_idx());
 			pstmt.setInt(2, udto.getUser_idx());

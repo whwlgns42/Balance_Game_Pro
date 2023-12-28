@@ -15,7 +15,7 @@ public class ContentAnswerDAO {
 	Connection conn;
 	PreparedStatement pstmt;
 	ResultSet rs;
-
+	
 	final String SELECTALL = "SELECT * FROM content_answers";
 //    final String SELECT_BY_GENDER = "SELECT * FROM content_answers WHERE gender = ?";
 //    final String SELECT_BY_AGE = "SELECT * FROM content_answers WHERE age = ?";
