@@ -1,0 +1,10 @@
+CREATE TABLE users ( 
+    idx NUMBER PRIMARY KEY,
+    Id VARCHAR2(50) UNIQUE NOT NULL,
+    pw VARCHAR2(255) NOT NULL,
+    name VARCHAR2(100) NOT NULL,
+    grade VARCHAR2(20) NOT NULL,
+    gender VARCHAR2(10),
+    age NUMBER,
+    reg_date DATE DEFAULT SYSDATE
+);
