@@ -9,6 +9,7 @@ import model.question.QuestionDAO;
 import model.question.QuestionDTO;
 import model.user.UserDAO;
 import model.user.UserDTO;
+import view.CommonView;
 import view.UserView;
 
 public class Ctrl {
@@ -19,7 +20,7 @@ public class Ctrl {
 	private UserDAO userDAO;
 	private UserDTO loginINFO;
 	private UserView userView;
-
+	private CommonView commonView;
 	public Ctrl() {
 		answerDAO = new ContentAnswerDAO();
 		questionDAO = new QuestionDAO();
@@ -41,8 +42,8 @@ public class Ctrl {
 //			1.로그인
 //			3.문제풀기
 //			4.지문출력
-			userView.printUserMenu();
-			int action = 0;
+			userView.printUserMenuLogout();
+			int action = commonView.inputAction();
 			if (action == 0) {
 				break;
 			} else if (action == 1) {
