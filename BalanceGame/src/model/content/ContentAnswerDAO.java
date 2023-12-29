@@ -17,6 +17,7 @@ public class ContentAnswerDAO {
     final String SELECTALL = "SELECT * FROM USER_ANSWERS";
     final String INSERT = "INSERT INTO USER_ANSWERS (IDX,USER_IDX, QUEST_IDX, CONTENT) VALUES ((SELECT NVL(MAX(IDX),0) + 1 FROM USER_ANSWERS),?, ?, ?)";
     final String SELECTONE = "SELECT * FROM USER_ANSWERS WHERE IDX = ?";
+    final String MY_ANSWER = "SELECT USER_ANSWERS.QUEST_IDX FROM USERS JOIN USER_ANSWERS ON users.IDX = USER_ANSWERS.USER_IDX WHERE USERS.IDX = ? ";
 
     public boolean insert(ContentAnswerDTO cdto) {
         conn = JDBCUtil.connect();
@@ -39,24 +40,46 @@ public class ContentAnswerDAO {
 
     public ArrayList<ContentAnswerDTO> selectAll(ContentAnswerDTO cdto) {
         ArrayList<ContentAnswerDTO> datas = new ArrayList<ContentAnswerDTO>();
-        conn = JDBCUtil.connect();
-        try {
-            pstmt = conn.prepareStatement(SELECTALL);
-            rs = pstmt.executeQuery();
-
-            while (rs.next()) {
-                ContentAnswerDTO data = new ContentAnswerDTO();
-                data.setIdx(rs.getInt("IDX"));
-                data.setUser_idx(rs.getInt("USER_IDX"));
-                data.setQuest_idx(rs.getInt("QUEST_IDX"));
-                data.setContent(rs.getString("CONTENT"));
-                datas.add(data);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            JDBCUtil.disconnect(pstmt, conn);
+        if(cdto.getSearchCondition().equals("전체출력")) {
+        	 conn = JDBCUtil.connect();
+             try {
+                 pstmt = conn.prepareStatement(SELECTALL);
+                 rs = pstmt.executeQuery();
+                 
+                 while (rs.next()) {
+                     ContentAnswerDTO data = new ContentAnswerDTO();
+                     data.setIdx(rs.getInt("IDX"));
+                     data.setUser_idx(rs.getInt("USER_IDX"));
+                     data.setQuest_idx(rs.getInt("QUEST_IDX"));
+                     data.setContent(rs.getString("CONTENT"));
+                     datas.add(data);
+                 }
+             } catch (SQLException e) {
+                 e.printStackTrace();
+                 return null;
+             } finally {
+                 JDBCUtil.disconnect(pstmt, conn);
+             }
+        }else if(cdto.getSearchCondition().equals("내답변")) {
+        	System.out.println("내답변 코드 들어옴");
+        	 conn = JDBCUtil.connect();
+             try {
+                 pstmt = conn.prepareStatement(MY_ANSWER);
+                 pstmt.setInt(1, cdto.getUser_idx());
+                 rs = pstmt.executeQuery();
+                 while (rs.next()) {
+                     ContentAnswerDTO data = new ContentAnswerDTO();
+                     data.setQuest_idx(rs.getInt("QUEST_IDX"));
+                     datas.add(data);
+                 }
+             } catch (SQLException e) {
+                 e.printStackTrace();
+                 return null;
+             } finally {
+                 JDBCUtil.disconnect(pstmt, conn);
+             }
         }
+       
         return datas;
     }
 
