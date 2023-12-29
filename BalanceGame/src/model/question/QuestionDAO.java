@@ -16,7 +16,7 @@ public class QuestionDAO {
 
 	private static final String SELECTALL = "";
 	private static final String SELECTONE = "SELECT * FROM (SELECT * FROM QUESTIONS ORDER BY DBMS_RANDOM.VALUE) WHERE ROWNUM = 1";
-	private static final String INSERT = "INSERT INTO QUESTIONS VALUES((SELECT NVL(MAX(IDX),0) + 1 FROM PRODUCT),?,?,?,?,?)";
+	private static final String INSERT = "INSERT INTO QUESTIONS(IDX, TITLE, CONTENT_A, CONTENT_B, WRITER)  VALUES((SELECT NVL(MAX(IDX), 0) + 1 FROM QUESTIONS),?,?,?,?)";
 	private static final String UPDATE = "";
 	private static final String DELETE = "";
 
@@ -26,7 +26,7 @@ public class QuestionDAO {
 		return null;
 	}
 
-	public QuestionDTO selectOne(QuestionDTO questionDTO) { // 단일 검색
+	public QuestionDTO selectOne(QuestionDTO questionDTO) { // 문제생성 
 		System.out.println(questionDTO.getSearchCondition());
 		QuestionDTO data = null;
 		if (questionDTO.getSearchCondition().equals("문제생성")) {
@@ -57,16 +57,17 @@ public class QuestionDAO {
 	// 크롤링한 문제 추가하기
 	public boolean insert(QuestionDTO questionDTO) {
 		conn = JDBCUtil.connect();
+		System.out.println("fff");
 
 		try {
 			pstmt = conn.prepareStatement(INSERT);
-			pstmt.setInt(1, questionDTO.getQid());
-			pstmt.setString(2, questionDTO.getTitle());
-			pstmt.setString(3, questionDTO.getContent_A());
-			pstmt.setString(4, questionDTO.getContent_B());
-			pstmt.setInt(5, questionDTO.getWriter());
+			pstmt.setString(1, questionDTO.getTitle());
+			pstmt.setString(2, questionDTO.getContent_A());
+			pstmt.setString(3, questionDTO.getContent_B());
+			pstmt.setInt(4, questionDTO.getWriter());
 
 			int result = pstmt.executeUpdate();
+			System.out.println(result);
 			if (result <= 0) {
 				return false;
 			}
@@ -79,44 +80,44 @@ public class QuestionDAO {
 		return true;
 	}
 
-	public boolean update(UserDTO uDTO) { // 변경
-		conn = JDBCUtil.connect();
-		try {
-			pstmt = conn.prepareStatement(UPDATE);
-			pstmt.setString(1, uDTO.getId());
-			pstmt.setString(2, uDTO.getPw());
-			pstmt.setString(3, uDTO.getName());
-			pstmt.setString(4, uDTO.getGrade());
-			pstmt.setString(5, uDTO.getGender());
-			pstmt.setInt(6, uDTO.getAge());
-			int result = pstmt.executeUpdate();
-			if (result <= 0) {
-				return false;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
-		} finally {
-			JDBCUtil.disconnect(pstmt, conn);
-		}
-		return true;
-	}
+//	public boolean update(UserDTO uDTO) { // TODO 미구현
+//		conn = JDBCUtil.connect();
+//		try {
+//			pstmt = conn.prepareStatement(UPDATE);
+//			pstmt.setString(1, uDTO.getId());
+//			pstmt.setString(2, uDTO.getPw());
+//			pstmt.setString(3, uDTO.getName());
+//			pstmt.setString(4, uDTO.getGrade());
+//			pstmt.setString(5, uDTO.getGender());
+//			pstmt.setInt(6, uDTO.getAge());
+//			int result = pstmt.executeUpdate();
+//			if (result <= 0) {
+//				return false;
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//			return false;
+//		} finally {
+//			JDBCUtil.disconnect(pstmt, conn);
+//		}
+//		return true;
+//	}
 
-	public boolean delete(UserDTO uDTO) { // 삭제
-		conn = JDBCUtil.connect();
-		try {
-			pstmt = conn.prepareStatement(DELETE);
-			pstmt.setInt(1, uDTO.getUid());
-			int result = pstmt.executeUpdate();
-			if (result <= 0) {
-				return false;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
-		} finally {
-			JDBCUtil.disconnect(pstmt, conn);
-		}
-		return true;
-	}
+//	public boolean delete(UserDTO uDTO) { // TODO 미구현
+//		conn = JDBCUtil.connect();
+//		try {
+//			pstmt = conn.prepareStatement(DELETE);
+//			pstmt.setInt(1, uDTO.getUid());
+//			int result = pstmt.executeUpdate();
+//			if (result <= 0) {
+//				return false;
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//			return false;
+//		} finally {
+//			JDBCUtil.disconnect(pstmt, conn);
+//		}
+//		return true;
+//	}
 }
