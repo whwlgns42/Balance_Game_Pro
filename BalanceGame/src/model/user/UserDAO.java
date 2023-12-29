@@ -18,6 +18,14 @@ public class UserDAO {
     private static final String UPDATE = "UPDATE USERS SET ID=?, PW=?, NAME=?, GRADE=?, GENDER=?, AGE=? WHERE IDX=?";
     private static final String DELETE = "DELETE FROM USERS WHERE IDX=?";
 
+<<<<<<< HEAD
+=======
+	private static final String SELECTALL = "SELECT * FROM USERS";
+	private static final String SELECTONE = "SELECT * FROM USERS WHERE ID=?" + "";
+	private static final String INSERT = "INSERT INTO USERS VALUES((SELECT NVL(MAX(UDTO),0) + 1 FROM PRODUCT),?,?,?,?,?,?)";
+	private static final String UPDATE = "UPDATE USERS SET CNT=CNT-1 WHERE UDTO=?";
+	private static final String DELETE = "DELETE FROM USERS UDTO=?";
+>>>>>>> 71324c2 (UserDAO + User sql 대소문자 수정)
 
 	public ArrayList<UserDTO> selectAll(UserDTO uDTO) { // 전체 검색
 		ArrayList<UserDTO> datas = new ArrayList<UserDTO>();
