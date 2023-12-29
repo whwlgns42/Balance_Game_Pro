@@ -63,47 +63,42 @@ public class Ctrl {
 			if (action == 0) {
 				break;
 			} else if (action == 1) {
-				int totalCnt=0;
-				int cnt=0;
-				ArrayList<Integer>Q_list=new ArrayList<Integer>();
-				if (loginINFO != null) {
-					QuestionDTO questionCnt = new QuestionDTO();
-					questionCnt.setSearchCondition("문제전체조회");
-					totalCnt = questionDAO.selectAll(questionCnt).size();
-				}
-				System.out.println(totalCnt);
-				Boolean flag = true;
-				while (flag) {
+				ArrayList<Integer> successList =new ArrayList<Integer>();
+				QuestionDTO dto =new QuestionDTO();
+				dto.setSearchCondition("문제전체조회");
+				int total= questionDAO.selectAll(dto).size();
+				Boolean start = true;
+				while (start) {
 //			    문제풀기 선택시         
 //	            밸런스 게임   - > 문제 끝내기 선택   
+					
+					System.out.println(total);
+					System.out.println(successList.size());
+					if(successList.size()>=total) {
+						userView.finish();
+						break;
+					}
 					
 					QuestionDTO questionDTO = new QuestionDTO();
 					questionDTO.setSearchCondition("문제생성");
 //	            모델에게 selectOne으로 랜덤으로 받아와 (질문모델)
 					questionDTO = questionDAO.selectOne(questionDTO);
-					if (loginINFO != null) {
-						ContentAnswerDTO cDto = new ContentAnswerDTO();
-						cDto.setSearchCondition("질문탐색");
-						cDto.setUser_idx(loginINFO.getIdx());
-						cDto.setQuest_idx(questionDTO.getQid());
-						cDto=answerDAO.selectOne(cDto);
-						if (cDto.getContent() != null) {
-							for(int data:Q_list) {
-								if(data==cDto.getQuest_idx()) {
-									continue;
-								}
-							}
-							if(totalCnt<=cnt) {
-								userView.finish();
-								break;
-							}
-							
-							Q_list.add(cDto.getQuest_idx());
-							cnt++;
-							
-							continue;
+					
+					
+					Boolean flag=false;
+					for(int data:successList) {
+						System.out.println(data);
+						if(data==questionDTO.getQid()) {
+							flag=true;
 						}
 					}
+					if(flag) {
+						continue;
+					}
+					successList.add(questionDTO.getQid());
+					
+					
+					
 //	     		 문제를 뷰로 출력 (뷰)
 					userView.selectOne(questionDTO);
 
@@ -149,7 +144,7 @@ public class Ctrl {
 //	            만약 다음 문제 풀기 선택을 하면 다음문제로 넘어간다(뷰)
 							break;
 						} else if (action == 2) {
-							flag = false;
+							start = false;
 							break;
 						} else if (action == 3) {
 							if (loginINFO == null) {
@@ -254,29 +249,6 @@ public class Ctrl {
 								continue;
 							}
 
-						} else if (action == 2) {// 2.성별
-
-//				               2성별을 선택
-//			                  1.남자
-//			                     모델에서 남자 답변개수 받아오기
-//			                     받아온 데이터 뷰 출력
-//			                     목록으로 돌아가기
-//			                  2.여자
-//			                     모델에서 여자 답변개수 받아오기
-//			                     받아온 데이터 뷰 출력
-//			                     목록으로 돌아가기
-//			                  
-
-						} else if (action == 3) {// 3.나이
-//				               3나이를 선택
-//			                  1.20대
-//			                     답변모델에서 나이 답변 개수데이터를 받아오기
-//			                     받아온 데이터 뷰 출력
-//			                     목록으로 돌아가기
-//			                  2.30대
-//			                     답변모델에서 나이 답변 개수데이터를 받아오기
-//			                     받아온 데이터 뷰 출력
-//			                     목록으로 돌아가기
 						}
 					}
 
@@ -334,40 +306,6 @@ public class Ctrl {
 								continue;
 							}
 
-						} else if (action == 2) {// 2.성별
-//				               2성별을 선택
-							action = userView.genderPrint();
-							if (action == 1) {
-//				                  1.남자
-								ContentAnswerDTO contentAnswerDTO = new ContentAnswerDTO();
-								contentAnswerDTO.setSearchCondition("성별");
-								contentAnswerDTO.setGenderCondition("남");
-//			                     모델에서 남자 답변개수 받아오기
-								contentAnswerDTO = answerDAO.selectOne(contentAnswerDTO);
-//			                     받아온 데이터 뷰 출력
-								userView.printAnswerResult(contentAnswerDTO, questionDTO);
-
-//			                     목록으로 돌아가기
-
-							}
-
-							else if (action == 2) {
-//				                  2.여자
-//			                     모델에서 여자 답변개수 받아오기
-//			                     받아온 데이터 뷰 출력
-//			                     목록으로 돌아가기	
-							}
-
-						} else if (action == 3) {// 3.나이
-//				               3나이를 선택
-//			                  1.20대
-//			                     답변모델에서 나이 답변 개수데이터를 받아오기
-//			                     받아온 데이터 뷰 출력
-//			                     목록으로 돌아가기
-//			                  2.30대
-//			                     답변모델에서 나이 답변 개수데이터를 받아오기
-//			                     받아온 데이터 뷰 출력
-//			                     목록으로 돌아가기
 						}
 					}
 

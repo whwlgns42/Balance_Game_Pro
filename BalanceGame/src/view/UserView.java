@@ -185,8 +185,6 @@ public class UserView extends View {
 	//질문보기 메뉴
 	public int inputPrint() {
 		System.out.println("1.댓글 쓰기");
-		System.out.println("1.성별비율로 결과보기");
-		System.out.println("2.나이비율로 결과보기");
 		System.out.println("0.끝내기");
 		return sc.nextInt();
 	}

@@ -17,12 +17,12 @@ public class ContentAnswerDAO {
     final String SELECTALL = "SELECT * FROM USER_ANSWERS";
     final String INSERT = "INSERT INTO USER_ANSWERS (IDX,USER_IDX, QUEST_IDX, CONTENT) VALUES ((SELECT NVL(MAX(IDX),0) + 1 FROM USER_ANSWERS),?, ?, ?)";
     final String SELECTONE = "SELECT * FROM USER_ANSWERS WHERE USER_IDX = ? AND QUEST_IDX=?";
-    final String MY_ANSWER = "SELECT USER_ANSWERS.QUEST_IDX FROM USERS JOIN USER_ANSWERS ON users.IDX = USER_ANSWERS.USER_IDX WHERE USERS.IDX = ? ";
+    final String MY_ANSWER = "SELECT DISTINCT USER_ANSWERS.QUEST_IDX FROM USERS JOIN USER_ANSWERS ON users.IDX = USER_ANSWERS.USER_IDX WHERE USERS.IDX = ? ";
     final String AGE_SELECT = "SELECT COUNT(*) AS RESULT_A FROM USER_ANSWERS JOIN USERS ON USERS.IDX = USER_ANSWERS.USER_IDX WHERE CONTENT = 'A' AND USERS.age BETWEEN ? AND ? AND USER_ANSWERS.QUEST_IDX = ?";
     final String SELECT_COUNT = "SELECT\r\n"
     		+ "    COUNT(CASE WHEN CONTENT = 'A' THEN 1 END) AS COUNT_A,\r\n"
     		+ "    COUNT(CASE WHEN CONTENT = 'B' THEN 1 END) AS COUNT_B\r\n"
-    		+ "FROM USER_ANSWERS";
+    		+ "FROM USER_ANSWERS WHERE QUEST_IDX=?";
     
     
     public boolean insert(ContentAnswerDTO cdto) {
@@ -137,6 +137,7 @@ public class ContentAnswerDAO {
     		conn = JDBCUtil.connect();
             try {
                 pstmt = conn.prepareStatement(SELECT_COUNT);
+                pstmt.setInt(1, cdto.getQuest_idx());
                 rs = pstmt.executeQuery();
 
                 if (rs.next()) {
