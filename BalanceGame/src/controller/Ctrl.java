@@ -67,6 +67,7 @@ public class Ctrl {
 				while (flag) {
 //			    문제풀기 선택시         
 //	            밸런스 게임   - > 문제 끝내기 선택   
+					
 					QuestionDTO questionDTO = new QuestionDTO();
 					questionDTO.setSearchCondition("문제생성");
 //	            모델에게 selectOne으로 랜덤으로 받아와 (질문모델)
@@ -94,10 +95,10 @@ public class Ctrl {
 //	            모델에게 해당 질문의 사용자 답변들을 모두 취합해 (답변모델)
 					ContentAnswerDTO answerDTO = new ContentAnswerDTO();
 
-					answerDTO.setSearchCondition("질문답변개수");
+					answerDTO.setSearchCondition("답변개수");
 					answerDTO.setQuest_idx(questionDTO.getQid());
 					answerDTO = answerDAO.selectOne(answerDTO);
-
+					System.out.println(answerDTO.getAnswerCntA());
 //	            뷰에게 퍼센트로 나타낸다 -> 답변개수/총개수 *100   (뷰)
 					// 결과 확인
 
@@ -184,7 +185,7 @@ public class Ctrl {
 //		            모델에게 selectOne 으로 지문 답변 A B개수 받아오기(답변모델)
 					QuestionDTO questionDTO = new QuestionDTO();
 					questionDTO.setQid(action-1);
-					answerDTO.setSearchCondition("질문답변개수");
+					answerDTO.setSearchCondition("답변개수");
 					answerDTO.setQuest_idx(questionDTO.getQid());
 					answerDAO.selectOne(answerDTO);
 
@@ -265,6 +266,7 @@ public class Ctrl {
 //			            모델에게 selectOne 으로 지문 답변 A B개수 받아오기(답변모델)
 					ContentAnswerDTO answerDTO=new ContentAnswerDTO();
 					answerDTO.setQuest_idx(questionDTO.getQid());
+					answerDTO.setSearchCondition("답변개수");
 					answerDTO = answerDAO.selectOne(answerDTO);
 //			            질문과 통계 뷰에서 출력(뷰)
 					
@@ -272,6 +274,7 @@ public class Ctrl {
 					while (true) {
 //			            질문과 통계 뷰에서 출력(뷰)
 						userView.printAnswerResult(answerDTO, questionDTO);
+						
 						UserCommentDTO commentDTO = new UserCommentDTO();
 						commentDTO.setQuest_idx(questionDTO.getQid());
 
@@ -302,17 +305,30 @@ public class Ctrl {
 							}
 							
 						} else if (action == 2) {// 2.성별
-
 //				               2성별을 선택
-//			                  1.남자
+							action= userView.genderPrint();
+							if(action==1) {
+//				                  1.남자
+								ContentAnswerDTO contentAnswerDTO =new ContentAnswerDTO();
+								contentAnswerDTO.setSearchCondition("성별");
+								contentAnswerDTO.setGenderCondition("남");
 //			                     모델에서 남자 답변개수 받아오기
+								contentAnswerDTO = answerDAO.selectOne(contentAnswerDTO);
 //			                     받아온 데이터 뷰 출력
+								userView.printAnswerResult(contentAnswerDTO, questionDTO);
+
 //			                     목록으로 돌아가기
-//			                  2.여자
+								
+							}
+
+							else if(action==2) {
+//				                  2.여자
 //			                     모델에서 여자 답변개수 받아오기
 //			                     받아온 데이터 뷰 출력
-//			                     목록으로 돌아가기
-//			                  
+//			                     목록으로 돌아가기	
+							}
+
+
 							
 						} else if (action == 3) {// 3.나이
 //				               3나이를 선택
