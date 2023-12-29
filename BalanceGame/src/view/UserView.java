@@ -46,7 +46,9 @@ public class UserView extends View {
    // 문제보여주기
    public void printQuestions(ArrayList<QuestionDTO> datas) {
       for (QuestionDTO data : datas) {
-         System.out.println(data);
+         System.out.println("지문: " +data.getTitle());
+         System.out.println("선택1: "+data.getContent_A());
+         System.out.println("선택2: "+data.getContent_B());
       }
    }
 
@@ -81,7 +83,7 @@ public class UserView extends View {
    // 댓글보여주기
    public void printComment(ArrayList<UserCommentDTO> datas) {
       for (UserCommentDTO data : datas) {
-         System.out.println(data);
+         System.out.println(data.getUser_comment());
       }
    }
 
@@ -94,7 +96,7 @@ public class UserView extends View {
 
    // 답변보여주기
    public void selectOne(ContentAnswerDTO data) {
-      System.out.println(data);
+      System.out.println(data.getContent());
    }
 
    // 댓글입력
@@ -118,13 +120,6 @@ public class UserView extends View {
       //System.out.println((data.getAnswerCnt_B()/total)*100+"%");
    }
 
-   // 답안선택
-   public ContentAnswerDTO answer() {
-      ContentAnswerDTO data = new ContentAnswerDTO();
-      System.out.print("A / B");
-      data.setContent(sc.next());
-      return data;
-   }
    // 성공시
    public void printTrue() {
       System.out.println("성공입니다");
