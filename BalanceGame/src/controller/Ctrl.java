@@ -64,7 +64,7 @@ public class Ctrl {
 				break;
 			} else if (action == 1) {
 				int totalCnt=0;
-				int cnt=0;
+
 				ArrayList<Integer>Q_list=new ArrayList<Integer>();
 				if (loginINFO != null) {
 					QuestionDTO questionCnt = new QuestionDTO();
@@ -76,7 +76,7 @@ public class Ctrl {
 				while (flag) {
 //			    문제풀기 선택시         
 //	            밸런스 게임   - > 문제 끝내기 선택   
-
+					int cnt=0;
 					QuestionDTO questionDTO = new QuestionDTO();
 					questionDTO.setSearchCondition("문제생성");
 //	            모델에게 selectOne으로 랜덤으로 받아와 (질문모델)
@@ -215,7 +215,7 @@ public class Ctrl {
 //		            해당 지문리스트에 받아온 번호의 인덱스를 넣어 pk얻은뒤
 //		            모델에게 selectOne 으로 지문 답변 A B개수 받아오기(답변모델)
 					QuestionDTO questionDTO = new QuestionDTO();
-					questionDTO.setQid(action - 1);
+					questionDTO.setQid(datas.get(action-1).getQid());
 					questionDTO.setSearchCondition("문제보기");
 					answerDTO.setSearchCondition("답변개수");
 					answerDTO.setQuest_idx(questionDTO.getQid());
