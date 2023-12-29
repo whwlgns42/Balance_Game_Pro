@@ -109,8 +109,8 @@ public class UserView extends View {
 	// 문제보여주기
 	public void selectOne(QuestionDTO data) {
 		System.out.println("지문: " + data.getTitle());
-		System.out.println("선택1: " + data.getContent_A());
-		System.out.println("선택2: " + data.getContent_B());
+		System.out.println("1. " + data.getContent_A());
+		System.out.println("2. " + data.getContent_B());
 	}
 
 	// 문제선택
