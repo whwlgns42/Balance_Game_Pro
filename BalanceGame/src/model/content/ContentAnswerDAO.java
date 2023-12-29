@@ -12,9 +12,9 @@ public class ContentAnswerDAO {
     private Connection conn;
     private PreparedStatement pstmt;
     private ResultSet rs;
-
+    
     final String SELECTALL = "SELECT * FROM USER_ANSWERS";
-    final String INSERT = "INSERT INTO USER_ANSWERS (USER_IDX, QUEST_IDX, CONTENT) VALUES (?, ?, ?)";
+    final String INSERT = "INSERT INTO USER_ANSWERS (IDX,USER_IDX, QUEST_IDX, CONTENT) VALUES ((SELECT NVL(MAX(IDX),0) + 1 FROM USER_ANSWERS),?, ?, ?)";
     final String SELECTONE = "SELECT * FROM USER_ANSWERS WHERE IDX = ?";
 
     public boolean insert(ContentAnswerDTO cdto) {
