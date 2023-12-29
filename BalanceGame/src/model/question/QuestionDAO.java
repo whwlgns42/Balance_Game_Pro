@@ -31,6 +31,8 @@ public class QuestionDAO {
 				while (rs.next()) {
 					questionData = new QuestionDTO();
 					questionData.setTitle(rs.getString("TITLE"));
+					questionData.setQid(rs.getInt("IDX"));
+					questionData.setWriter(rs.getInt("WRITER"));
 					questionData.setContent_A(rs.getString("CONTENT_A"));
 					questionData.setContent_B(rs.getString("CONTENT_B"));
 					datas.add(questionData);
