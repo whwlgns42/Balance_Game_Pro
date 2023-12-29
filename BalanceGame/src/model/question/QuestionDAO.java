@@ -22,16 +22,18 @@ public class QuestionDAO {
 
 	public ArrayList<QuestionDTO> selectAll(QuestionDTO questionDTO) { // 문제 제목만 전체 조회하기
 		ArrayList<QuestionDTO> datas = new ArrayList<QuestionDTO>();
-		QuestionDTO questionTitle = null;
+		QuestionDTO questionData = null;
 		if (questionDTO.getSearchCondition().equals("문제전체조회")) {
 			conn = JDBCUtil.connect();
 			try {
 				pstmt = conn.prepareStatement(SELECTALL);
 				ResultSet rs = pstmt.executeQuery();
 				while (rs.next()) {
-					questionTitle = new QuestionDTO();
-					questionTitle.setTitle(rs.getString("TITLE"));
-					datas.add(questionTitle);
+					questionData = new QuestionDTO();
+					questionData.setTitle(rs.getString("TITLE"));
+					questionData.setContent_A(rs.getString("CONTENT_A"));
+					questionData.setContent_B(rs.getString("CONTENT_B"));
+					datas.add(questionData);
 				}
 				rs.close();
 			} catch (SQLException e) {

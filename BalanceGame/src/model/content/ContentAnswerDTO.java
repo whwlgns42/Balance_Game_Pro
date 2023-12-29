@@ -8,7 +8,7 @@ public class ContentAnswerDTO {
     private String searchCondition;
     private int answerCntA;
     private int answerCntB;
-    private int genderCondition;
+    private String genderCondition;
     private int minAge;
     private int maxAge;
     
@@ -26,11 +26,11 @@ public class ContentAnswerDTO {
     
     
     
-    public int getGenderCondition() {
+    public String getGenderCondition() {
 		return genderCondition;
 	}
 
-	public void setGenderCondition(int genderCondition) {
+	public void setGenderCondition(String genderCondition) {
 		this.genderCondition = genderCondition;
 	}
 
