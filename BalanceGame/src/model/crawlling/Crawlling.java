@@ -2,9 +2,10 @@ package model.crawlling;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.lang.model.util.Elements;
 
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
 import model.question.QuestionDTO;
 
