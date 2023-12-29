@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import model.Util.JDBCUtil;
-import model.user.UserDTO;
 
 public class QuestionDAO {
 
@@ -16,6 +15,7 @@ public class QuestionDAO {
 
 	private static final String SELECTALL = "SELECT TITLE FROM QUESTIONS";
 	private static final String SELECTONE = "SELECT * FROM (SELECT * FROM QUESTIONS ORDER BY DBMS_RANDOM.VALUE) WHERE ROWNUM = 1";
+	private static final String SELECT_PK_ONE = "SELECT * FROM QUESTIONS WHERE IDX = ?";
 	private static final String INSERT = "INSERT INTO QUESTIONS(IDX, TITLE, CONTENT_A, CONTENT_B, WRITER)  VALUES((SELECT NVL(MAX(IDX), 0) + 1 FROM QUESTIONS),?,?,?,?)";
 	private static final String UPDATE = "";
 	private static final String DELETE = "";
@@ -44,7 +44,6 @@ public class QuestionDAO {
 	}
 
 	public QuestionDTO selectOne(QuestionDTO questionDTO) { // 문제생성
-		System.out.println(questionDTO.getSearchCondition());
 		QuestionDTO data = null;
 		if (questionDTO.getSearchCondition().equals("문제생성")) {
 			conn = JDBCUtil.connect();
@@ -67,11 +66,33 @@ public class QuestionDAO {
 			} finally {
 				JDBCUtil.disconnect(pstmt, conn);
 			}
+		}else if(questionDTO.getSearchCondition().equals("문제보기")) {
+			conn = JDBCUtil.connect();
+				try {
+				pstmt = conn.prepareStatement(SELECT_PK_ONE);
+				pstmt.setInt(1, questionDTO.getQid());
+				ResultSet rs = pstmt.executeQuery();
+
+				if (rs.next()) {
+					data = new QuestionDTO();
+					data.setQid(rs.getInt("IDX"));
+					data.setTitle(rs.getString("TITLE"));
+					data.setContent_A(rs.getString("CONTENT_A"));
+					data.setContent_B(rs.getString("CONTENT_B"));
+					data.setWriter(rs.getInt("WRITER"));
+					data.setReg_date(rs.getDate("REG_DATE"));
+				}
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				JDBCUtil.disconnect(pstmt, conn);
+			}
 		}
 		return data;
 	} 
 
-	// 크롤링한 문제 추가하기
+	// 크롤링한 문제 추가하기ll
 	public boolean insert(QuestionDTO questionDTO) {
 		conn = JDBCUtil.connect();
 		try {
