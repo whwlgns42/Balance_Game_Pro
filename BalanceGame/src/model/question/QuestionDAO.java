@@ -14,19 +14,36 @@ public class QuestionDAO {
 	private Connection conn;
 	private PreparedStatement pstmt;
 
-	private static final String SELECTALL = "";
-	private static final String SELECTONE = "SELECT * FROM (SELECT * FROM QUESTIONS ORDER BY DBMS_RANDOM.VALUE) WHERE ROWNUM = 1";
-	private static final String INSERT = "INSERT INTO QUESTIONS(IDX, TITLE, CONTENT_A, CONTENT_B, WRITER)  VALUES((SELECT NVL(MAX(IDX), 0) + 1 FROM QUESTIONS),?,?,?,?)";
-	private static final String UPDATE = "";
-	private static final String DELETE = "";
+	private static final String SELECTALL	= "SELECT TITLE FROM QUESTIONS";
+	private static final String SELECTONE 	= "SELECT * FROM (SELECT * FROM QUESTIONS ORDER BY DBMS_RANDOM.VALUE) WHERE ROWNUM = 1";
+	private static final String INSERT 		= "INSERT INTO QUESTIONS(IDX, TITLE, CONTENT_A, CONTENT_B, WRITER)  VALUES((SELECT NVL(MAX(IDX), 0) + 1 FROM QUESTIONS),?,?,?,?)";
+	private static final String UPDATE 		= "";
+	private static final String DELETE 		= "";
 
-	public ArrayList<UserDTO> selectAll(QuestionDTO questionDTO) { // 전체 검색
-		conn = JDBCUtil.connect();
+	public ArrayList<QuestionDTO> selectAll(QuestionDTO questionDTO) { // 문제 제목만 전체 조회하기
+		ArrayList<QuestionDTO> datas = new ArrayList<QuestionDTO>();
+		QuestionDTO questionTitle = null;
+		if (questionDTO.getSearchCondition().equals("문제전체조회")) {
+			conn = JDBCUtil.connect();
+			try {
+				pstmt = conn.prepareStatement(SELECTALL);
+				ResultSet rs = pstmt.executeQuery();
+				while (rs.next()) {
+					questionTitle = new QuestionDTO();
+					questionTitle.setTitle(rs.getString("TITLE"));
+					datas.add(questionTitle);
+				}
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return null;
+			}
+		}
+		return datas;
 
-		return null;
 	}
 
-	public QuestionDTO selectOne(QuestionDTO questionDTO) { // 문제생성 
+	public QuestionDTO selectOne(QuestionDTO questionDTO) { // 문제생성
 		System.out.println(questionDTO.getSearchCondition());
 		QuestionDTO data = null;
 		if (questionDTO.getSearchCondition().equals("문제생성")) {
