@@ -14,11 +14,11 @@ public class QuestionDAO {
 	private Connection conn;
 	private PreparedStatement pstmt;
 
-	private static final String SELECTALL	= "SELECT TITLE FROM QUESTIONS";
-	private static final String SELECTONE 	= "SELECT * FROM (SELECT * FROM QUESTIONS ORDER BY DBMS_RANDOM.VALUE) WHERE ROWNUM = 1";
-	private static final String INSERT 		= "INSERT INTO QUESTIONS(IDX, TITLE, CONTENT_A, CONTENT_B, WRITER)  VALUES((SELECT NVL(MAX(IDX), 0) + 1 FROM QUESTIONS),?,?,?,?)";
-	private static final String UPDATE 		= "";
-	private static final String DELETE 		= "";
+	private static final String SELECTALL = "SELECT TITLE FROM QUESTIONS";
+	private static final String SELECTONE = "SELECT * FROM (SELECT * FROM QUESTIONS ORDER BY DBMS_RANDOM.VALUE) WHERE ROWNUM = 1";
+	private static final String INSERT = "INSERT INTO QUESTIONS(IDX, TITLE, CONTENT_A, CONTENT_B, WRITER)  VALUES((SELECT NVL(MAX(IDX), 0) + 1 FROM QUESTIONS),?,?,?,?)";
+	private static final String UPDATE = "";
+	private static final String DELETE = "";
 
 	public ArrayList<QuestionDTO> selectAll(QuestionDTO questionDTO) { // 문제 제목만 전체 조회하기
 		ArrayList<QuestionDTO> datas = new ArrayList<QuestionDTO>();
@@ -69,13 +69,11 @@ public class QuestionDAO {
 			}
 		}
 		return data;
-	}
+	} 
 
 	// 크롤링한 문제 추가하기
 	public boolean insert(QuestionDTO questionDTO) {
 		conn = JDBCUtil.connect();
-		System.out.println("fff");
-
 		try {
 			pstmt = conn.prepareStatement(INSERT);
 			pstmt.setString(1, questionDTO.getTitle());
