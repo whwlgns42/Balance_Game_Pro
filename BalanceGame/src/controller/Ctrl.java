@@ -63,15 +63,47 @@ public class Ctrl {
 			if (action == 0) {
 				break;
 			} else if (action == 1) {
+				int totalCnt=0;
+				int cnt=0;
+				ArrayList<Integer>Q_list=new ArrayList<Integer>();
+				if (loginINFO != null) {
+					QuestionDTO questionCnt = new QuestionDTO();
+					questionCnt.setSearchCondition("문제전체조회");
+					totalCnt = questionDAO.selectAll(questionCnt).size();
+				}
+				System.out.println(totalCnt);
 				Boolean flag = true;
 				while (flag) {
 //			    문제풀기 선택시         
 //	            밸런스 게임   - > 문제 끝내기 선택   
-					
+
 					QuestionDTO questionDTO = new QuestionDTO();
 					questionDTO.setSearchCondition("문제생성");
 //	            모델에게 selectOne으로 랜덤으로 받아와 (질문모델)
 					questionDTO = questionDAO.selectOne(questionDTO);
+					if (loginINFO != null) {
+						ContentAnswerDTO cDto = new ContentAnswerDTO();
+						cDto.setSearchCondition("질문탐색");
+						cDto.setUser_idx(loginINFO.getIdx());
+						cDto.setQuest_idx(questionDTO.getQid());
+						cDto=answerDAO.selectOne(cDto);
+						if (cDto.getContent() != null) {
+							for(int data:Q_list) {
+								if(data==cDto.getQuest_idx()) {
+									continue;
+								}
+							}
+							if(totalCnt<=cnt) {
+								userView.finish();
+								break;
+							}
+							
+							Q_list.add(cDto.getQuest_idx());
+							cnt++;
+							
+							continue;
+						}
+					}
 //	     		 문제를 뷰로 출력 (뷰)
 					userView.selectOne(questionDTO);
 
@@ -98,7 +130,6 @@ public class Ctrl {
 					answerDTO.setSearchCondition("답변개수");
 					answerDTO.setQuest_idx(questionDTO.getQid());
 					answerDTO = answerDAO.selectOne(answerDTO);
-					System.out.println(answerDTO.getAnswerCntA());
 //	            뷰에게 퍼센트로 나타낸다 -> 답변개수/총개수 *100   (뷰)
 					// 결과 확인
 
@@ -184,10 +215,12 @@ public class Ctrl {
 //		            해당 지문리스트에 받아온 번호의 인덱스를 넣어 pk얻은뒤
 //		            모델에게 selectOne 으로 지문 답변 A B개수 받아오기(답변모델)
 					QuestionDTO questionDTO = new QuestionDTO();
-					questionDTO.setQid(action-1);
+					questionDTO.setQid(action - 1);
+					questionDTO.setSearchCondition("문제보기");
 					answerDTO.setSearchCondition("답변개수");
 					answerDTO.setQuest_idx(questionDTO.getQid());
-					answerDAO.selectOne(answerDTO);
+					questionDTO=questionDAO.selectOne(questionDTO);
+					answerDTO=answerDAO.selectOne(answerDTO);
 
 					while (true) {
 //			            질문과 통계 뷰에서 출력(뷰)
@@ -204,7 +237,7 @@ public class Ctrl {
 //				               끝내기
 							break;
 						} else if (action == 1) {// 1.댓글 추가
-							
+
 							if (loginINFO == null) {
 								// 로그인이 필요한 기능입니다
 								userView.printLogin(loginINFO);
@@ -220,7 +253,7 @@ public class Ctrl {
 								userView.printFalse();
 								continue;
 							}
-							
+
 						} else if (action == 2) {// 2.성별
 
 //				               2성별을 선택
@@ -233,7 +266,7 @@ public class Ctrl {
 //			                     받아온 데이터 뷰 출력
 //			                     목록으로 돌아가기
 //			                  
-							
+
 						} else if (action == 3) {// 3.나이
 //				               3나이를 선택
 //			                  1.20대
@@ -250,31 +283,28 @@ public class Ctrl {
 				} else if (action == 2) {
 //			         2.모든 지문 출력 선택시
 //		            모델에게 selectAll로 지문을 받아옴(질문모델)
-					QuestionDTO questionDTO=new QuestionDTO();
+					QuestionDTO questionDTO = new QuestionDTO();
 					questionDTO.setSearchCondition("문제전체조회");
-					ArrayList<QuestionDTO>datas= questionDAO.selectAll(questionDTO);
+					ArrayList<QuestionDTO> datas = questionDAO.selectAll(questionDTO);
 //		            뷰에게 지문리스트 전달해 출력(뷰)
 					userView.printQuestions(datas);
-					
-//		            사용자에게 보고싶은 지문 번호 받아오기(뷰)
-					action= commonView.questions(datas);
-					
 
+//		            사용자에게 보고싶은 지문 번호 받아오기(뷰)
+					action = commonView.questions(datas);
 
 //			            해당 지문리스트에 받아온 번호의 인덱스를 넣어 pk얻은뒤
-					questionDTO=datas.get(action-1);
+					questionDTO = datas.get(action - 1);
 //			            모델에게 selectOne 으로 지문 답변 A B개수 받아오기(답변모델)
-					ContentAnswerDTO answerDTO=new ContentAnswerDTO();
+					ContentAnswerDTO answerDTO = new ContentAnswerDTO();
 					answerDTO.setQuest_idx(questionDTO.getQid());
 					answerDTO.setSearchCondition("답변개수");
 					answerDTO = answerDAO.selectOne(answerDTO);
 //			            질문과 통계 뷰에서 출력(뷰)
-					
-					
+
 					while (true) {
 //			            질문과 통계 뷰에서 출력(뷰)
 						userView.printAnswerResult(answerDTO, questionDTO);
-						
+
 						UserCommentDTO commentDTO = new UserCommentDTO();
 						commentDTO.setQuest_idx(questionDTO.getQid());
 
@@ -287,7 +317,7 @@ public class Ctrl {
 //				               끝내기
 							break;
 						} else if (action == 1) {// 1.댓글 추가
-							
+
 							if (loginINFO == null) {
 								// 로그인이 필요한 기능입니다
 								userView.printLogin(loginINFO);
@@ -303,13 +333,13 @@ public class Ctrl {
 								userView.printFalse();
 								continue;
 							}
-							
+
 						} else if (action == 2) {// 2.성별
 //				               2성별을 선택
-							action= userView.genderPrint();
-							if(action==1) {
+							action = userView.genderPrint();
+							if (action == 1) {
 //				                  1.남자
-								ContentAnswerDTO contentAnswerDTO =new ContentAnswerDTO();
+								ContentAnswerDTO contentAnswerDTO = new ContentAnswerDTO();
 								contentAnswerDTO.setSearchCondition("성별");
 								contentAnswerDTO.setGenderCondition("남");
 //			                     모델에서 남자 답변개수 받아오기
@@ -318,18 +348,16 @@ public class Ctrl {
 								userView.printAnswerResult(contentAnswerDTO, questionDTO);
 
 //			                     목록으로 돌아가기
-								
+
 							}
 
-							else if(action==2) {
+							else if (action == 2) {
 //				                  2.여자
 //			                     모델에서 여자 답변개수 받아오기
 //			                     받아온 데이터 뷰 출력
 //			                     목록으로 돌아가기	
 							}
 
-
-							
 						} else if (action == 3) {// 3.나이
 //				               3나이를 선택
 //			                  1.20대
@@ -362,13 +390,12 @@ public class Ctrl {
 //		         로그인 정보 저장   (컨트롤)
 				loginINFO = dto;
 
-			}else if(action==4) {
+			} else if (action == 4) {
 				// 4.로그아웃
 				userView.printLogout(loginINFO);
-				loginINFO=null;
-			}
-			else if(action==5) {
-				if(loginINFO==null) {
+				loginINFO = null;
+			} else if (action == 5) {
+				if (loginINFO == null) {
 					userView.printLogin(loginINFO);
 					continue;
 				}

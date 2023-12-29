@@ -13,7 +13,7 @@ public class QuestionDAO {
 	private Connection conn;
 	private PreparedStatement pstmt;
 
-	private static final String SELECTALL = "SELECT TITLE FROM QUESTIONS";
+	private static final String SELECTALL = "SELECT * FROM QUESTIONS";
 	private static final String SELECTONE = "SELECT * FROM (SELECT * FROM QUESTIONS ORDER BY DBMS_RANDOM.VALUE) WHERE ROWNUM = 1";
 	private static final String SELECT_PK_ONE = "SELECT * FROM QUESTIONS WHERE IDX = ?";
 	private static final String INSERT = "INSERT INTO QUESTIONS(IDX, TITLE, CONTENT_A, CONTENT_B, WRITER)  VALUES((SELECT NVL(MAX(IDX), 0) + 1 FROM QUESTIONS),?,?,?,?)";

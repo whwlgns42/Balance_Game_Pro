@@ -16,7 +16,7 @@ public class ContentAnswerDAO {
     
     final String SELECTALL = "SELECT * FROM USER_ANSWERS";
     final String INSERT = "INSERT INTO USER_ANSWERS (IDX,USER_IDX, QUEST_IDX, CONTENT) VALUES ((SELECT NVL(MAX(IDX),0) + 1 FROM USER_ANSWERS),?, ?, ?)";
-    final String SELECTONE = "SELECT * FROM USER_ANSWERS WHERE IDX = ?";
+    final String SELECTONE = "SELECT * FROM USER_ANSWERS WHERE USER_IDX = ? AND QUEST_IDX=?";
     final String MY_ANSWER = "SELECT USER_ANSWERS.QUEST_IDX FROM USERS JOIN USER_ANSWERS ON users.IDX = USER_ANSWERS.USER_IDX WHERE USERS.IDX = ? ";
     final String AGE_SELECT = "SELECT COUNT(*) AS RESULT_A FROM USER_ANSWERS JOIN USERS ON USERS.IDX = USER_ANSWERS.USER_IDX WHERE CONTENT = 'A' AND USERS.age BETWEEN ? AND ? AND USER_ANSWERS.QUEST_IDX = ?";
     final String SELECT_COUNT = "SELECT\r\n"
@@ -90,12 +90,14 @@ public class ContentAnswerDAO {
     }
 
     public ContentAnswerDTO selectOne(ContentAnswerDTO cdto) {
-    	ContentAnswerDTO data = new ContentAnswerDTO();
-    	if(cdto == null) {
+    	ContentAnswerDTO data = null;
+    	if(cdto.getSearchCondition().equals("질문탐색")) {
+    		data=new ContentAnswerDTO();
     		conn = JDBCUtil.connect();
             try {
                 pstmt = conn.prepareStatement(SELECTONE);
-                pstmt.setInt(1, cdto.getIdx());
+                pstmt.setInt(1, cdto.getUser_idx());
+                pstmt.setInt(2, cdto.getQuest_idx());
                 rs = pstmt.executeQuery();
 
                 if (rs.next()) {
@@ -104,12 +106,15 @@ public class ContentAnswerDAO {
                     data.setQuest_idx(rs.getInt("QUEST_IDX"));
                     data.setContent(rs.getString("CONTENT"));
                 }
+                
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
                 JDBCUtil.disconnect(pstmt, conn);
             }
-    	}else if(cdto.getSearchCondition().equals("나이대별조회")) {
+    	}
+    	else if(cdto.getSearchCondition().equals("나이대별조회")) {
+    		data=new ContentAnswerDTO();
     		conn = JDBCUtil.connect();
             try {
                 pstmt = conn.prepareStatement(AGE_SELECT);
@@ -126,7 +131,9 @@ public class ContentAnswerDAO {
             } finally {
                 JDBCUtil.disconnect(pstmt, conn);
             }
-    	}else if(cdto.getSearchCondition().equals("답변개수")) {
+    	}
+    	else if(cdto.getSearchCondition().equals("답변개수")) {
+    		data=new ContentAnswerDTO();
     		conn = JDBCUtil.connect();
             try {
                 pstmt = conn.prepareStatement(SELECT_COUNT);

@@ -71,12 +71,9 @@ public class UserView extends View {
 
 	// 로그아웃 멘트
 	public void printLogout(UserDTO user) {
-		if (user != null) {
-			System.out.println("로그인이 되어 있습니다");
-		}
-		else {
+		
 			System.out.println("로그아웃 되었습니다");
-		}
+		
 	}
 	
 	
@@ -94,7 +91,7 @@ public class UserView extends View {
 	public void printEmptyData() {
 		System.out.println("데이터가 없습니다");
 	}
-							
+
 	// 로그인 후 목록보기
 	public void loginListMenu(UserDTO user) {
 		if (user != null) {
@@ -159,11 +156,12 @@ public class UserView extends View {
 	// 결과확인
 	public void printAnswerResult(ContentAnswerDTO cDto, QuestionDTO qDto) {
 		int total = cDto.getAnswerCntA() + cDto.getAnswerCntB();
+
 		System.out.println(qDto.getTitle());
 		System.out.print(qDto.getContent_A() + " : ");
-		System.out.println((cDto.getAnswerCntA()/total)*100+"%");
+		System.out.println((int)((cDto.getAnswerCntA()*1.0/total)*100)+"%");
 		System.out.print(qDto.getContent_B() + " : ");
-		System.out.println((cDto.getAnswerCntB()/total)*100+"%");
+		System.out.println((int)((cDto.getAnswerCntB()*1.0/total)*100)+"%");
 	}
 
 	// 성공시
@@ -192,6 +190,13 @@ public class UserView extends View {
 		System.out.println("0.끝내기");
 		return sc.nextInt();
 	}
-	
-
+	//성별 선택
+	public int genderPrint() {
+		System.out.println("1. 남자");
+		System.out.println("2. 여자");
+		return sc.nextInt();
+	}
+	public void finish() {
+		System.out.println("모든 문제를 풀었습니다");
+	}
 }
