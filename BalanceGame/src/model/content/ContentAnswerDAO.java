@@ -7,10 +7,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import model.Util.JDBCUtil;
-
+//
+// 
 public class ContentAnswerDAO {
-    private Connection conn;
-    private PreparedStatement pstmt;
+    private Connection conn;	
+    private PreparedStatement pstmt; 
     private ResultSet rs;
     
     final String SELECTALL = "SELECT * FROM USER_ANSWERS";

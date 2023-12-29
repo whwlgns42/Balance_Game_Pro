@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import model.Util.JDBCUtil;
 
 public class UserCommentDAO {
-    Connection conn;
+    Connection conn;	// 
     PreparedStatement pstmt;
 
     final String SELECTONE = "SELECT * FROM USER_COMMENTS WHERE IDX = ?";
@@ -17,6 +17,7 @@ public class UserCommentDAO {
     final String INSERT = "INSERT INTO USER_COMMENTS (IDX,QUEST_IDX, USER_IDX, USER_COMMENT) VALUES ((SELECT NVL(MAX(IDX),0) + 1 FROM USER_COMMENTS),?, ?, ?)";
     final String UPDATE = "UPDATE USER_COMMENTS SET QUEST_IDX = ?, USER_IDX = ?, USER_COMMENT = ? WHERE IDX = ?";
     final String DELETE = "DELETE FROM USER_COMMENTS WHERE IDX = ?";
+    final String SELECT_BY_QUESTION = "SELECT * FROM USER_COMMENTS WHERE QUEST_IDX = ?";
 
     public boolean insert(UserCommentDTO udto) {
         conn = JDBCUtil.connect();
@@ -72,10 +73,19 @@ public class UserCommentDAO {
     }
 
     public ArrayList<UserCommentDTO> selectAll(UserCommentDTO udto) {
+    	
+    	//찬우님 댓글모델에서 질문 pk로 댓글 selectAll해서 나오게 해주세요
+    	// 일단 pk 따로 생각을 해야함 질문 pk와 댓글 pk가 같도록 이걸 묶어서 출력해야함
+    	// 질문 pk를 받아온다고 생각하고 댓글 pk를 테이블끼리 묶어야하나? 그래서 출력하면 질문에 맞는 댓글이 나오게
+    	// 아니 그러면 여러개 댓글을 달면 댓글 pk는 계속 변해서 pk가 동일하게는 못맞춰줌
+    	// 어케 그 질문에 그 댓글을 할수 있을까?
+    	// 질문 테이블에서 pk가져오고 댓글에서 질문pk 이너조인 해서 받아온다
+    	
         ArrayList<UserCommentDTO> datas = new ArrayList<>();
         conn = JDBCUtil.connect();
         try {
-            pstmt = conn.prepareStatement(SELECTALL);
+            pstmt = conn.prepareStatement(SELECT_BY_QUESTION);
+            pstmt.setInt(1, udto.getQuest_idx());
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
@@ -94,6 +104,30 @@ public class UserCommentDAO {
         }
         return datas;
     }
+    	
+    	
+//        ArrayList<UserCommentDTO> datas = new ArrayList<>();
+//        conn = JDBCUtil.connect();
+//        try {
+//            pstmt = conn.prepareStatement(SELECTALL);
+//            ResultSet rs = pstmt.executeQuery();
+//
+//            while (rs.next()) {
+//                UserCommentDTO comment = new UserCommentDTO();
+//                comment.setIdx(rs.getInt("IDX"));
+//                comment.setQuest_idx(rs.getInt("QUEST_IDX"));
+//                comment.setUser_idx(rs.getInt("USER_IDX"));
+//                comment.setUser_comment(rs.getString("USER_COMMENT"));
+//                datas.add(comment);
+//            }
+//            rs.close();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        } finally {
+//            JDBCUtil.disconnect(pstmt, conn);
+//        }
+//        return datas;
+//    }
 
     public UserCommentDTO selectOne(UserCommentDTO udto) {
         UserCommentDTO data = null;

@@ -11,13 +11,12 @@ import model.Util.JDBCUtil;
 public class UserDAO {
     private Connection conn;
     private PreparedStatement pstmt;
-
+    
     private static final String SELECTALL = "SELECT * FROM USERS";
     private static final String SELECTONE = "SELECT * FROM USERS WHERE ID=?";
     private static final String INSERT = "INSERT INTO USERS (IDX, ID, PW, NAME, GRADE, GENDER, AGE) VALUES ((SELECT NVL(MAX(IDX),0) + 1 FROM USERS),?,?,?,?,?,?)";
     private static final String UPDATE = "UPDATE USERS SET ID=?, PW=?, NAME=?, GRADE=?, GENDER=?, AGE=? WHERE IDX=?";
     private static final String DELETE = "DELETE FROM USERS WHERE IDX=?";
-
 
 
 	public ArrayList<UserDTO> selectAll(UserDTO uDTO) { // 전체 검색
@@ -29,12 +28,12 @@ public class UserDAO {
 
 			while (rs.next()) {
 				UserDTO data = new UserDTO();
-				data.setId(rs.getString("ID"));
-				data.setPw(rs.getString("PW"));
-				data.setName(rs.getString("NAME"));
-				data.setGrade(rs.getString("GRADE"));
-				data.setGender(rs.getString("GENDER"));
-				data.setAge(rs.getInt("AGE"));
+				data.setId(rs.getString("Id"));
+				data.setPw(rs.getString("Pw"));
+				data.setName(rs.getString("Name"));
+				data.setGrade(rs.getString("Grade"));
+				data.setGender(rs.getString("Gender"));
+				data.setAge(rs.getInt("Age"));
 
 			}
 
@@ -59,12 +58,12 @@ public class UserDAO {
 
 			if (rs.next()) {
 				data = new UserDTO();
-				data.setId(rs.getString("ID"));
-				data.setPw(rs.getString("PW"));
-				data.setName(rs.getString("NAME"));
-				data.setGrade(rs.getString("GRADE"));
-				data.setGender(rs.getString("GENDER"));
-				data.setAge(rs.getInt("AGE"));
+				data.setId(rs.getString("Id"));
+				data.setPw(rs.getString("Pw"));
+				data.setName(rs.getString("Name"));
+				data.setGrade(rs.getString("Grade"));
+				data.setGender(rs.getString("Gender"));
+				data.setAge(rs.getInt("Age"));
 
 			}
 			rs.close();
@@ -145,4 +144,3 @@ public class UserDAO {
 	}
 
 }
-
