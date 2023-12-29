@@ -49,8 +49,6 @@ public class UserView extends View {
 	public void printQuestions(ArrayList<QuestionDTO> datas) {
 		for (QuestionDTO data : datas) {
 			System.out.println("지문: " + data.getTitle());
-			System.out.println("선택1: " + data.getContent_A());
-			System.out.println("선택2: " + data.getContent_B());
 		}
 	}
 
@@ -110,9 +108,9 @@ public class UserView extends View {
 
 	// 문제보여주기
 	public void selectOne(QuestionDTO data) {
-		System.out.println(data.getTitle());
-		System.out.println(data.getContent_A());
-		System.out.println(data.getContent_B());
+		System.out.println("지문: " + data.getTitle());
+		System.out.println("선택1: " + data.getContent_A());
+		System.out.println("선택2: " + data.getContent_B());
 	}
 
 	// 문제선택
@@ -175,7 +173,7 @@ public class UserView extends View {
 
 	// 다음문제
 	public int inputNext() {
-		System.out.print("다음으로 넘어가시겠습니까?");
+		System.out.println("다음으로 넘어가시겠습니까?");
 		System.out.println("1.네");
 		System.out.println("2.아니오");
 		System.out.println("3.댓글달기");
