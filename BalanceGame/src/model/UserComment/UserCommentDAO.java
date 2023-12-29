@@ -93,7 +93,7 @@ public class UserCommentDAO {
                 comment.setIdx(rs.getInt("IDX"));
                 comment.setQuest_idx(rs.getInt("QUEST_IDX"));
                 comment.setUser_idx(rs.getInt("USER_IDX"));
-                comment.setUser_comment(rs.getString("USER_COMMENT"));
+                comment.setUser_comment(rs.getString("USER_COMMENT")); 
                 datas.add(comment);
             }
             rs.close();

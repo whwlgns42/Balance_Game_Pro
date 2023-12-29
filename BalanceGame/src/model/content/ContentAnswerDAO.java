@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import model.Util.JDBCUtil;
 //
-// 
+//
 public class ContentAnswerDAO {
     private Connection conn;	
     private PreparedStatement pstmt; 
@@ -25,10 +25,10 @@ public class ContentAnswerDAO {
             pstmt.setInt(1, cdto.getUser_idx());
             pstmt.setInt(2, cdto.getQuest_idx());
             pstmt.setString(3, cdto.getContent());
-
+            
             int rowsAffected = pstmt.executeUpdate();
             return rowsAffected > 0;
-
+            
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
