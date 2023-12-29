@@ -89,7 +89,7 @@ public class UserView extends View {
 	public void printEmptyData() {
 		System.out.println("데이터가 없습니다");
 	}
-
+							
 	// 로그인 후 목록보기
 	public void loginListMenu(UserDTO user) {
 		if (user != null) {
