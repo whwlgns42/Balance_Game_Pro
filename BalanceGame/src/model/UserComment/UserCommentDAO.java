@@ -12,10 +12,10 @@ public class UserCommentDAO {
     Connection conn;	// 
     PreparedStatement pstmt;
 
-    final String SELECTONE = "SELECT * FROM USER_COMMENTS WHERE IDX = ?";
+    final String SELECTONE = "SELECT * FROM USER_COMMENTS WHERE IDX = ?";	// 인덱스을 입력해서 해당하는 데이터 출력
     final String SELECTALL = "SELECT * FROM USER_COMMENTS"; // 모든 댓글을 가져오는 쿼리
-    final String INSERT = "INSERT INTO USER_COMMENTS (IDX,QUEST_IDX, USER_IDX, USER_COMMENT) VALUES ((SELECT NVL(MAX(IDX),0) + 1 FROM USER_COMMENTS),?, ?, ?)";
-    final String UPDATE = "UPDATE USER_COMMENTS SET QUEST_IDX = ?, USER_IDX = ?, USER_COMMENT = ? WHERE IDX = ?";
+    final String INSERT = "INSERT INTO USER_COMMENTS (IDX,QUEST_IDX, USER_IDX, USER_COMMENT) VALUES ((SELECT NVL(MAX(IDX),0) + 1 FROM USER_COMMENTS),?, ?, ?)";// 댓글 추가하기
+    final String UPDATE = "UPDATE USER_COMMENTS SET QUEST_IDX = ?, USER_IDX = ?, USER_COMMENT = ? WHERE IDX = ?";	// 댓글 수정 하기
     final String DELETE = "DELETE FROM USER_COMMENTS WHERE IDX = ?";
     final String SELECT_BY_QUESTION = "SELECT * FROM USER_COMMENTS WHERE QUEST_IDX = ?";
 

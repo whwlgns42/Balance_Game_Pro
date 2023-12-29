@@ -47,8 +47,8 @@ public class UserView extends View {
 
 	// 문제보여주기
 	public void printQuestions(ArrayList<QuestionDTO> datas) {
-		for (QuestionDTO data : datas) {
-			System.out.println("지문: " + data.getTitle());
+		for (int i=0;i<datas.size();i++) {
+			System.out.println((i+1)+". " + datas.get(i).getTitle());
 		}
 	}
 
@@ -74,7 +74,12 @@ public class UserView extends View {
 		if (user != null) {
 			System.out.println("로그인이 되어 있습니다");
 		}
+		else {
+			System.out.println("로그아웃 되었습니다");
+		}
 	}
+	
+	
 
 	// 댓글
 	public void commentUpdate(UserDTO user) {
@@ -179,5 +184,14 @@ public class UserView extends View {
 		System.out.println("3.댓글달기");
 		return sc.nextInt();
 	}
+	//질문보기 메뉴
+	public int inputPrint() {
+		System.out.println("1.댓글 추가");
+		System.out.println("2.성별 보기");
+		System.out.println("3.나이 보기");
+		System.out.println("0.끝내기");
+		return sc.nextInt();
+	}
+	
 
 }

@@ -1,5 +1,9 @@
 package view;
 
+import java.util.ArrayList;
+
+import model.question.QuestionDTO;
+
 public class CommonView extends View{
    
    private int answer;
@@ -60,4 +64,9 @@ public class CommonView extends View{
 	   return answer;
    }
  
+   public int questions(ArrayList<QuestionDTO> datas) {
+		System.out.print("번호입력>> ");
+		int answer = validation(1, datas.size(), sc.nextInt());
+		return answer;
+   }
 }

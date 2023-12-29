@@ -8,6 +8,10 @@ public class ContentAnswerDTO {
     private String searchCondition;
     private int answerCntA;
     private int answerCntB;
+    private String genderCondition;
+    private int minAge;
+    private int maxAge;
+    
 
     
    
@@ -22,7 +26,31 @@ public class ContentAnswerDTO {
     
     
     
-    public int getIdx() {
+    public String getGenderCondition() {
+		return genderCondition;
+	}
+
+	public void setGenderCondition(String genderCondition) {
+		this.genderCondition = genderCondition;
+	}
+
+	public int getMinAge() {
+		return minAge;
+	}
+
+	public void setMinAge(int minAge) {
+		this.minAge = minAge;
+	}
+
+	public int getMaxAge() {
+		return maxAge;
+	}
+
+	public void setMaxAge(int maxAge) {
+		this.maxAge = maxAge;
+	}
+
+	public int getIdx() {
         return idx;
     }
 
