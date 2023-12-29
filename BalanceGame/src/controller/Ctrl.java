@@ -71,11 +71,13 @@ public class Ctrl {
 					questionDTO = questionDAO.selectOne(questionDTO);
 //	     		 문제를 뷰로 출력 (뷰)
 					userView.selectOne(questionDTO);
-					ContentAnswerDTO data = userView.answer();
+					
+					ContentAnswerDTO data = new ContentAnswerDTO();
+					data.setContent(commonView.qustionAction());
 //	            뷰에게 사용자가 답변을 선택받으면   (뷰)
 					data.setQuest_idx(questionDTO.getQid());// 질문 pk 저장
 					if (loginINFO != null) {
-						data.setUser_idx(loginINFO.getUid());// 유저 pk 저장
+						data.setUser_idx(loginINFO.getIdx());// 유저 pk 저장
 					}else {
 						data.setUser_idx(-1);
 					}
@@ -118,7 +120,7 @@ public class Ctrl {
 							// 뷰에게 댓글을 입력받고 (뷰)
 							commentDTO = userView.writeComment();
 							commentDTO.setQuest_idx(questionDTO.getQid());
-							commentDTO.setUser_idx(loginINFO.getUid());
+							commentDTO.setUser_idx(loginINFO.getIdx());
 //			           		모델에게 insert를 한다   (댓글모델)
 							if (!commentDAO.insert(commentDTO)) {
 								userView.printFalse();
