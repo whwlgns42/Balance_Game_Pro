@@ -35,8 +35,8 @@ CREATE TABLE USER_COMMENTS (
     REG_DATE DATE DEFAULT SYSDATE
 );
 INSERT INTO USERS (IDX, ID, PW, NAME, GRADE, GENDER, AGE) VALUES (0,'admin','1234','어드민','admin','여',25); 
-
-select * from USER_ANSWERS;
+INSERT INTO USERS (IDX, ID, PW, NAME, GRADE, GENDER, AGE) VALUES (1,'user','1234','유저','user','여',25); 
+select * from USERS where IDX=0;
 
 drop table USERS;
 

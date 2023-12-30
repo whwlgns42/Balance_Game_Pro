@@ -45,7 +45,7 @@ public class ContentAnswerDAO {
     }
 
     public ArrayList<ContentAnswerDTO> selectAll(ContentAnswerDTO cdto) {
-        ArrayList<ContentAnswerDTO> datas = new ArrayList<ContentAnswerDTO>();
+        ArrayList<ContentAnswerDTO> datas = null;
         if(cdto.getSearchCondition().equals("전체출력")) {
         	 conn = JDBCUtil.connect();
              try {
@@ -53,6 +53,7 @@ public class ContentAnswerDAO {
                  rs = pstmt.executeQuery();
                  
                  while (rs.next()) {
+                	 datas=new ArrayList<ContentAnswerDTO>();
                      ContentAnswerDTO data = new ContentAnswerDTO();
                      data.setIdx(rs.getInt("IDX"));
                      data.setUser_idx(rs.getInt("USER_IDX"));
@@ -67,13 +68,13 @@ public class ContentAnswerDAO {
                  JDBCUtil.disconnect(pstmt, conn);
              }
         }else if(cdto.getSearchCondition().equals("내답변")) {
-        	System.out.println("내답변 코드 들어옴");
         	 conn = JDBCUtil.connect();
              try {
                  pstmt = conn.prepareStatement(MY_ANSWER);
                  pstmt.setInt(1, cdto.getUser_idx());
                  rs = pstmt.executeQuery();
                  while (rs.next()) {
+                	 datas=new ArrayList<ContentAnswerDTO>();
                      ContentAnswerDTO data = new ContentAnswerDTO();
                      data.setQuest_idx(rs.getInt("QUEST_IDX"));
                      datas.add(data);

@@ -187,8 +187,9 @@ public class Ctrl {
 			} else if (action == 2) {
 
 				// 지문출력 선택시
-				// 1. 모든 지문 출력(뷰)
-				// 2. 내가 풀었던 지문 출력 [로그인](뷰)
+				// 1. 내가 풀었던 지문 출력 [로그인](뷰)
+				// 2. 모든 지문 출력(뷰)
+				
 				userView.loginListMenu(loginINFO);
 				action = commonView.loginListAction();
 				if (action == 0) {
@@ -206,7 +207,10 @@ public class Ctrl {
 					answerDTO.setSearchCondition("내답변");
 					answerDTO.setUser_idx(loginINFO.getIdx());
 					ArrayList<ContentAnswerDTO> cDtos = answerDAO.selectAll(answerDTO);
-
+					if(cDtos==null) {
+						System.out.println("푼 문제가 없습니다");
+						continue;
+					}
 					ArrayList<QuestionDTO> datas = new ArrayList<QuestionDTO>();
 					for (int i = 0; i < cDtos.size(); i++) {
 						QuestionDTO questionDTO = new QuestionDTO();
