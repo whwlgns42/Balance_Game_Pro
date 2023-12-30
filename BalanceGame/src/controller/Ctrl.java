@@ -35,6 +35,7 @@ public class Ctrl {
 	}
 
 	public void comment(ContentAnswerDTO answerDTO, QuestionDTO questionDTO) {
+		userView.printQuestionResult();
 		userView.printAnswerResult(answerDTO, questionDTO);
 		UserCommentDTO commentDTO = new UserCommentDTO();
 		commentDTO.setQuest_idx(questionDTO.getQid());
@@ -52,9 +53,10 @@ public class Ctrl {
 				data.setUserName(user.getName());
 			}
 		}
-//모델에게 해당질문의 댓글들을 받아온다 ->    (댓글모델)
+		//모델에게 해당질문의 댓글들을 받아온다 ->    (댓글모델)
+		userView.printCommentResult();
 		userView.printComment(comments);
-//밑에 다른 사용자들이 달아둔 댓글들을 뷰로 출력하고 (뷰)
+		//밑에 다른 사용자들이 달아둔 댓글들을 뷰로 출력하고 (뷰)
 	}
 
 	public void commentInsert(QuestionDTO questionDTO) {
@@ -76,15 +78,18 @@ public class Ctrl {
 		return answerDTO;
 
 	}
+	public void crwalling() {
+		ArrayList<QuestionDTO> crawResults = Crawlling.crwalling();
+		for (QuestionDTO questionData : crawResults) { // TODO 컨트롤에서 데이터 확인후 나중에 삭제해주세요
+			System.out.println(questionData);
+			questionData.setWriter(0);
+			questionDAO.insert(questionData);
+		}
+	}
 
 	public void start() {
 		// 크롤링 데이터 넣기
-//		ArrayList<QuestionDTO> crawResults = Crawlling.crwalling();
-//		for (QuestionDTO questionData : crawResults) { // TODO 컨트롤에서 데이터 확인후 나중에 삭제해주세요
-//			System.out.println(questionData);
-//			questionData.setWriter(0);
-//			questionDAO.insert(questionData);
-//		}
+		//crwalling();
 
 		while (true) {
 			// 1.게임하기
@@ -92,13 +97,14 @@ public class Ctrl {
 			// 3.로그인
 			// 4.로그아웃
 			// 5.회원 탈퇴
-
+			userView.printMenu();
 			userView.printUserMenu();
 			if (loginINFO == null) {
 				userView.printLoginUserMenu();
 			} else {
 				userView.printLogoutUserMenu();
 			}
+			userView.printLine();
 			int action = commonView.userMenuAction();
 
 			if (action == 0) {
@@ -208,7 +214,7 @@ public class Ctrl {
 					answerDTO.setUser_idx(loginINFO.getIdx());
 					ArrayList<ContentAnswerDTO> cDtos = answerDAO.selectAll(answerDTO);
 					if(cDtos==null) {
-						System.out.println("푼 문제가 없습니다");
+						userView.printEmptyData();
 						continue;
 					}
 					ArrayList<QuestionDTO> datas = new ArrayList<QuestionDTO>();
@@ -281,7 +287,7 @@ public class Ctrl {
 							if (loginINFO == null) {
 								// 로그인이 필요한 기능입니다
 								userView.printLogin(loginINFO);
-								continue;
+								break;
 							}
 							// 댓글을 단다면 (뷰)
 							commentInsert(questionDTO);
@@ -293,6 +299,10 @@ public class Ctrl {
 
 			} else if (action == 3) {
 				// 로그인 선택시
+				if(loginINFO!=null) {
+					userView.noNumber();
+					continue;
+				}
 				// 뷰에게 아이디,비밀번호 받기 (뷰)
 				UserDTO dto = userView.signIn();
 				dto.setSearchCondition("로그인");
@@ -304,17 +314,21 @@ public class Ctrl {
 					continue;
 				}
 				// 성공시 성공 뷰 (뷰)
-				userView.printTrue();
+				userView.loginSuccess();
 				// 로그인 정보 저장 (컨트롤)
 				loginINFO = dto;
 
 			} else if (action == 4) {
+				if(loginINFO==null) {
+					userView.noNumber();
+					continue;
+				}
 				// 4.로그아웃
 				userView.printLogout(loginINFO);
 				loginINFO = null;
 			} else if (action == 5) {
 				if (loginINFO == null) {
-					userView.printLogin(loginINFO);
+					userView.noNumber();
 					continue;
 				}
 				// 5.회원 탈퇴

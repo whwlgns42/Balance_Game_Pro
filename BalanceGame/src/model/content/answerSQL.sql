@@ -36,7 +36,7 @@ CREATE TABLE USER_COMMENTS (
 );
 INSERT INTO USERS (IDX, ID, PW, NAME, GRADE, GENDER, AGE) VALUES (0,'admin','1234','어드민','admin','여',25); 
 INSERT INTO USERS (IDX, ID, PW, NAME, GRADE, GENDER, AGE) VALUES (1,'user','1234','유저','user','여',25);
-
+INSERT INTO USERS (IDX, ID, PW, NAME, GRADE, GENDER, AGE) VALUES (2,'teemo','1234','티모','user','남',25);
 select * from USER_ANSWERS;
 
 drop table USER_ANSWERS;

@@ -81,7 +81,7 @@ public class ContentAnswerDAO {
 				JDBCUtil.disconnect(pstmt, conn);
 			}
 		}
-		if (datas.size() <= 0) {
+		if (datas.isEmpty()) {
 			datas = null;
 		}
 		return datas;

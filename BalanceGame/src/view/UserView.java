@@ -39,7 +39,21 @@ public class UserView extends View {
 	public void printAgeResult() {
 		System.out.println("========나이비율========");
 	}
-
+	
+	public void printMenu() {
+		System.out.println("========메뉴========");
+	}
+	public void printLine() {
+		System.out.println("===================");
+	}
+	public void printCommentResult() {
+		System.out.println();
+		System.out.println("========댓글========");
+	}
+	public void printQuestionResult() {
+		System.out.println();
+		System.out.println("========질문========");
+	}
 	// 성별비율
 	public void printGenderResult(ArrayList<UserCommentDTO> datas) {
 		System.out.println("남자비율");
@@ -69,14 +83,17 @@ public class UserView extends View {
 		}
 	}
 
+	public void loginSuccess() {
+		System.out.println("로그인 성공 (~‾▿‾)~");
+	}
 	// 로그아웃 멘트
 	public void printLogout(UserDTO user) {
-		
-			System.out.println("로그아웃 되었습니다");
-		
+			System.out.println("로그아웃 되었습니다 (º𐋣º)");
 	}
-	
-	
+
+	public void noNumber() {
+		System.out.println("잘못된 번호 입니다");
+	}
 
 	// 댓글
 	public void commentUpdate(UserDTO user) {
@@ -89,7 +106,7 @@ public class UserView extends View {
 
 	// 데이터 없음
 	public void printEmptyData() {
-		System.out.println("데이터가 없습니다");
+		System.out.println("푼 문제가 없습니다.");
 	}
 
 	// 로그인 후 목록보기
@@ -103,6 +120,10 @@ public class UserView extends View {
 
 	// 댓글보여주기
 	public void printComment(ArrayList<UserCommentDTO> datas) {
+		if(datas.isEmpty()) {
+			System.out.println("작성된 댓글이 없습니다!");
+			return;
+		}
 		for (UserCommentDTO data : datas) {
 			System.out.print(data.getUserName()+": ");
 			System.out.println(data.getUser_comment());
@@ -111,9 +132,11 @@ public class UserView extends View {
 
 	// 문제보여주기
 	public void selectOne(QuestionDTO data) {
+		System.out.println();
 		System.out.println("지문: " + data.getTitle());
 		System.out.println("1. " + data.getContent_A());
 		System.out.println("2. " + data.getContent_B());
+		System.out.println();
 	}
 
 	// 문제선택
@@ -159,10 +182,12 @@ public class UserView extends View {
 		int total = cDto.getAnswerCntA() + cDto.getAnswerCntB();
 
 		System.out.println(qDto.getTitle());
+		System.out.println();
+		System.out.println("       [결과]");
 		System.out.print(qDto.getContent_A() + " : ");
-		System.out.println((int)((cDto.getAnswerCntA()*1.0/total)*100)+"%");
+		System.out.println(Math.round((cDto.getAnswerCntA()*1.0/total)*100)+"%");
 		System.out.print(qDto.getContent_B() + " : ");
-		System.out.println((int)((cDto.getAnswerCntB()*1.0/total)*100)+"%");
+		System.out.println(Math.round((cDto.getAnswerCntB()*1.0/total)*100)+"%");
 	}
 
 	// 성공시
@@ -177,6 +202,7 @@ public class UserView extends View {
 
 	// 다음문제
 	public int inputNext() {
+		System.out.println();
 		System.out.println("다음으로 넘어가시겠습니까?");
 		System.out.println("1.네");
 		System.out.println("2.아니오");
@@ -195,7 +221,8 @@ public class UserView extends View {
 		System.out.println("2. 여자");
 		return sc.nextInt();
 	}
+
 	public void finish() {
-		System.out.println("모든 문제를 풀었습니다");
+		System.out.println("모든 문제를 풀었습니다!");
 	}
 }
