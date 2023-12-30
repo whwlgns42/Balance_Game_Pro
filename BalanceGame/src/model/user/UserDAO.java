@@ -14,6 +14,7 @@ public class UserDAO {
     
     private static final String SELECTALL = "SELECT * FROM USERS";
     private static final String SELECTONE = "SELECT * FROM USERS WHERE ID=?";
+    private static final String USER_SELECT = "SELECT * FROM USERS WHERE IDX=?";
     private static final String INSERT = "INSERT INTO USERS (IDX, ID, PW, NAME, GRADE, GENDER, AGE) VALUES ((SELECT NVL(MAX(IDX),0) + 1 FROM USERS),?,?,?,?,?,?)";
     private static final String UPDATE = "UPDATE USERS SET ID=?, PW=?, NAME=?, GRADE=?, GENDER=?, AGE=? WHERE IDX=?";
     private static final String DELETE = "DELETE FROM USERS WHERE IDX=?";
@@ -49,30 +50,58 @@ public class UserDAO {
 
 	public UserDTO selectOne(UserDTO uDTO) { // 단일 검색
 		UserDTO data = null;
-		conn = JDBCUtil.connect();
+		if(uDTO.getSearchCondition().equals("로그인")) {
+			conn = JDBCUtil.connect();
 
-		try {
-			pstmt = conn.prepareStatement(SELECTONE);
-			pstmt.setString(1, uDTO.getId());
-			ResultSet rs = pstmt.executeQuery();
+			try {
+				pstmt = conn.prepareStatement(SELECTONE);
+				pstmt.setString(1, uDTO.getId());
+				ResultSet rs = pstmt.executeQuery();
 
-			if (rs.next()) {
-				data = new UserDTO();
-				data.setId(rs.getString("Id"));
-				data.setPw(rs.getString("Pw"));
-				data.setName(rs.getString("Name"));
-				data.setGrade(rs.getString("Grade"));
-				data.setGender(rs.getString("Gender"));
-				data.setAge(rs.getInt("Age"));
+				if (rs.next()) {
+					data = new UserDTO();
+					data.setIdx(rs.getInt("IDX"));
+					data.setId(rs.getString("Id"));
+					data.setPw(rs.getString("Pw"));
+					data.setName(rs.getString("Name"));
+					data.setGrade(rs.getString("Grade"));
+					data.setGender(rs.getString("Gender"));
+					data.setAge(rs.getInt("Age"));
+				}
+				rs.close();
 
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				JDBCUtil.disconnect(pstmt, conn);
 			}
-			rs.close();
+		}else if(uDTO.getSearchCondition().equals("유저조회")) {
+			conn = JDBCUtil.connect();
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			JDBCUtil.disconnect(pstmt, conn);
+			try {
+				pstmt = conn.prepareStatement(USER_SELECT);
+				pstmt.setString(1, uDTO.getId());
+				ResultSet rs = pstmt.executeQuery();
+
+				if (rs.next()) {
+					data = new UserDTO();
+					data.setIdx(rs.getInt("IDX"));
+					data.setId(rs.getString("Id"));
+					data.setPw(rs.getString("Pw"));
+					data.setName(rs.getString("Name"));
+					data.setGrade(rs.getString("Grade"));
+					data.setGender(rs.getString("Gender"));
+					data.setAge(rs.getInt("Age"));
+				}
+				rs.close();
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				JDBCUtil.disconnect(pstmt, conn);
+			}
 		}
+	
 		return data;
 
 	}
