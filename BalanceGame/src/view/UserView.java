@@ -181,13 +181,13 @@ public class UserView extends View {
 		System.out.println("1.네");
 		System.out.println("2.아니오");
 		System.out.println("3.댓글달기");
-		return sc.nextInt();
+		return validation(1, 3);
 	}
 	//질문보기 메뉴
 	public int inputPrint() {
 		System.out.println("1.댓글 쓰기");
 		System.out.println("0.끝내기");
-		return sc.nextInt();
+		return validation(0, 1);
 	}
 	//성별 선택
 	public int genderPrint() {
