@@ -16,7 +16,6 @@ public class CommonView extends View{
    }
    //답 보기 메뉴
    public String qustionAction() {
-	   System.out.println("답을 입력해주세요");
 	   String answer1 = validation(1, 2)==1 ? "A":"B";
 	   return answer1;
    }

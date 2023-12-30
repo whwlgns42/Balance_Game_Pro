@@ -165,7 +165,7 @@ public class UserView extends View {
 	// 댓글입력
 	public UserCommentDTO writeComment() {
 		UserCommentDTO data = new UserCommentDTO();
-		System.out.println("댓글입력해주세요");
+		System.out.println("댓글을 입력해주세요");
 		sc.nextLine();
 		data.setUser_comment(sc.nextLine());
 		return data;
@@ -192,12 +192,12 @@ public class UserView extends View {
 
 	// 성공시
 	public void printTrue() {
-		System.out.println("성공입니다");
+		System.out.println("성공입니다!");
 	}
 
 	// 실패시
 	public void printFalse() {
-		System.out.println("실패입니다");
+		System.out.println("실패입니다. 다시 시도해주세요");
 	}
 
 	// 다음문제
@@ -224,5 +224,15 @@ public class UserView extends View {
 
 	public void finish() {
 		System.out.println("모든 문제를 풀었습니다!");
+	}
+	//메뉴 상단에 로그인이 되어있는지 확인 
+	public void loginStatus(UserDTO user) {
+		if(user == null) {
+			System.out.println("로그인 후 이용해주세요");
+		}else if(user.getGrade().equals("admin")){
+			System.out.println("관리자님, 안녕하세요(●'◡'●)");
+		}else {
+			System.out.println(user.getName()+"님, 안녕하세요(●'◡'●)");
+		}
 	}
 }
