@@ -35,17 +35,17 @@ public class Ctrl {
 	}
 
 	public void comment(ContentAnswerDTO answerDTO, QuestionDTO questionDTO) {
-		userView.printQuestionResult();
+		userView.printQuestionResult();//질문 결과 출력
 		userView.printAnswerResult(answerDTO, questionDTO);
 		UserCommentDTO commentDTO = new UserCommentDTO();
-		commentDTO.setQuest_idx(questionDTO.getQid());
+		commentDTO.setQuest_idx(questionDTO.getQid());//질문에 대한 댓글 가져오기
 		ArrayList<UserCommentDTO> comments = commentDAO.selectAll(commentDTO);
-		for (UserCommentDTO data : comments) {
+		for (UserCommentDTO data : comments) {//댓글에 대한 유저 닉네임 가져오기
 			UserDTO user = new UserDTO();
 			user.setIdx(data.getUser_idx());
 			user.setSearchCondition("유저조회");
 			user = userDAO.selectOne(user);
-			if (user == null) {
+			if (user == null) {//유저가 null로 나오면 탈퇴한 사용자
 				data.setUserId("탈퇴한 사용자");
 				data.setUserName("탈퇴한 사용자");
 			} else {
@@ -74,7 +74,7 @@ public class Ctrl {
 		ContentAnswerDTO answerDTO = new ContentAnswerDTO();
 		answerDTO.setQuest_idx(questionDTO.getQid());
 		answerDTO.setSearchCondition("답변개수");
-		answerDTO = answerDAO.selectOne(answerDTO);
+		answerDTO = answerDAO.selectOne(answerDTO);//결과 출력 때 사용할 답변개수 가져오기
 		return answerDTO;
 
 	}
@@ -95,13 +95,13 @@ public class Ctrl {
 			// 1.게임하기
 			// 2.지문보기
 			// 3.로그인
-			// 4.로그아웃
-			// 5.회원 탈퇴
+			// 4.로그아웃[로그인]
+			// 5.회원 탈퇴[로그인]
 			userView.printMenu();
 			userView.printUserMenu();
-			if (loginINFO == null) {
+			if (loginINFO == null) {//로그인 안되어 있을때 뷰
 				userView.printLoginUserMenu();
-			} else {
+			} else {//로그인 되어 있을때 뷰
 				userView.printLogoutUserMenu();
 			}
 			userView.printLine();
@@ -109,14 +109,14 @@ public class Ctrl {
 
 			if (action == 0) {
 				break;
-			} else if (action == 1) {
-				ArrayList<Integer> successList = new ArrayList<Integer>();
+			} else if (action == 1) {// 게임하기 선택시
+				ArrayList<Integer> successList = new ArrayList<Integer>();//푼 문제 pk모음
 				QuestionDTO dto = new QuestionDTO();
 				dto.setSearchCondition("문제전체조회");
 				int total = questionDAO.selectAll(dto).size();
 				Boolean start = true;
 				while (start) {
-					// 문제풀기 선택시
+					
 					// 밸런스 게임 - > 문제 끝내기 선택
 
 					if (successList.size() >= total) {
@@ -145,7 +145,7 @@ public class Ctrl {
 
 					ContentAnswerDTO data = new ContentAnswerDTO();
 
-					data.setContent(commonView.qustionAction());
+					data.setContent(commonView.qustionAction());//답변 입력
 
 					// 뷰에게 사용자가 답변을 선택받으면 (뷰)
 					data.setQuest_idx(questionDTO.getQid());// 질문 pk 저장
@@ -187,9 +187,7 @@ public class Ctrl {
 							commentInsert(questionDTO);
 						}
 					}
-
 				}
-
 			} else if (action == 2) {
 
 				// 지문출력 선택시
@@ -209,36 +207,38 @@ public class Ctrl {
 					}
 					// 모델에게 유저 pk로 selectAll 지문을 받아옴(질문모델)
 
-					ContentAnswerDTO answerDTO = new ContentAnswerDTO();
+					ContentAnswerDTO answerDTO = new ContentAnswerDTO();//내가 답변했던 질문들을 받아오기위해 DTO를 선언해
 					answerDTO.setSearchCondition("내답변");
-					answerDTO.setUser_idx(loginINFO.getIdx());
-					ArrayList<ContentAnswerDTO> cDtos = answerDAO.selectAll(answerDTO);
+					answerDTO.setUser_idx(loginINFO.getIdx());//유저의 IDX를 넣어
+					ArrayList<ContentAnswerDTO> cDtos = answerDAO.selectAll(answerDTO);//중복이 제거된 내가 푼 답변 리스트를 가져온다
 					if(cDtos==null) {
 						userView.printEmptyData();
 						continue;
 					}
-					ArrayList<QuestionDTO> datas = new ArrayList<QuestionDTO>();
+					ArrayList<QuestionDTO> datas = new ArrayList<QuestionDTO>();//문제를 가져와 리스트에 저장할 변수
 					for (int i = 0; i < cDtos.size(); i++) {
-						QuestionDTO questionDTO = new QuestionDTO();
+						QuestionDTO questionDTO = new QuestionDTO();//문제를 가져오기 위한 DTO
 						questionDTO.setSearchCondition("문제보기");
 						questionDTO.setQid(cDtos.get(i).getQuest_idx());
-						datas.add(questionDAO.selectOne(questionDTO));
-						
+						datas.add(questionDAO.selectOne(questionDTO));//문제를 가져와 저장한다
 					}
-
+					//문제를 여러게 가져오는데 selectAll이 아닌이유 
+					//내가 푼 답변리스트에 있는 질문 pk 들로 질문을 조회를 할때 인자가 DTO이기 때문에
+					//selectOne으로 답변리스트에서 질문 pk로 조회를 해서 질문을 저장한다 
+					
 					// 뷰에게 지문리스트 전달해 출력(뷰)
 					userView.printQuestions(datas);
 
 					// 사용자에게 보고싶은 지문 번호 받아오기(뷰)
 					action = commonView.questions(datas);
 
-					// 해당 지문리스트에 받아온 번호의 인덱스를 넣어 pk얻은뒤
-					// 모델에게 selectOne 으로 지문 답변 A B개수 받아오기(답변모델)
+				
 					QuestionDTO questionDTO = new QuestionDTO();
 					questionDTO.setQid(datas.get(action - 1).getQid());
+					// 해당 지문리스트에 받아온 번호의 인덱스를 넣어 pk얻은뒤
 					questionDTO.setSearchCondition("문제보기");
 					questionDTO = questionDAO.selectOne(questionDTO);
-
+					// 모델에게 selectOne 으로 지문 답변 A B개수 받아오기(답변모델)
 					answerDTO = answerCnt(questionDTO);
 
 					while (true) {
@@ -275,7 +275,7 @@ public class Ctrl {
 					// 모델에게 selectOne 으로 지문 답변 A B개수 받아오기(답변모델)
 
 					ContentAnswerDTO answerDTO = answerCnt(questionDTO);
-//질문과 통계 뷰에서 출력(뷰)
+					//질문과 통계 뷰에서 출력(뷰)
 
 					while (true) {
 						comment(answerDTO, questionDTO);
