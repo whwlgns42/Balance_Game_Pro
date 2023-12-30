@@ -80,7 +80,7 @@ public class UserDAO {
 
 			try {
 				pstmt = conn.prepareStatement(USER_SELECT);
-				pstmt.setString(1, uDTO.getId());
+				pstmt.setInt(1, uDTO.getIdx());
 				ResultSet rs = pstmt.executeQuery();
 
 				if (rs.next()) {
