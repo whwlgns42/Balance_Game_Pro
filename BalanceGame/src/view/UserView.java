@@ -11,6 +11,7 @@ public class UserView extends View {
 
 	// 사용자 통합 메뉴
 	public void printUserMenu() {
+		System.out.println("0.프로그램종료");
 		System.out.println("1.게임하기");
 		System.out.println("2.지문보기");
 	}
@@ -25,7 +26,6 @@ public class UserView extends View {
 		System.out.println("4.로그아웃");
 		System.out.println("5.회원탈퇴");
 	}
-
 	// 결과출력
 	public void printUserResult() {
 		System.out.println("1.성별비율로 결과보기");
@@ -104,6 +104,7 @@ public class UserView extends View {
 	// 댓글보여주기
 	public void printComment(ArrayList<UserCommentDTO> datas) {
 		for (UserCommentDTO data : datas) {
+			System.out.print(data.getUserName()+": ");
 			System.out.println(data.getUser_comment());
 		}
 	}
