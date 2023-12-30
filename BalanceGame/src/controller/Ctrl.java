@@ -44,8 +44,13 @@ public class Ctrl {
 			user.setIdx(data.getUser_idx());
 			user.setSearchCondition("유저조회");
 			user = userDAO.selectOne(user);
-			data.setUserId(user.getId());
-			data.setUserName(user.getName());
+			if (user == null) {
+				data.setUserId("탈퇴한 사용자");
+				data.setUserName("탈퇴한 사용자");
+			} else {
+				data.setUserId(user.getId());
+				data.setUserName(user.getName());
+			}
 		}
 //모델에게 해당질문의 댓글들을 받아온다 ->    (댓글모델)
 		userView.printComment(comments);
