@@ -6,8 +6,29 @@ public class UserCommentDTO {
     private int user_idx; // users 테이블의 idx를 참조
     private String user_comment;
     private String searchCondition;
+    private String userName;
+    private String userId;
+    
+    
+    
+    
+    public String getUserName() {
+		return userName;
+	}
 
-    public String getSearchCondition() {
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public String getSearchCondition() {
         return searchCondition;
     }
 
