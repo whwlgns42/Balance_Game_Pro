@@ -52,7 +52,6 @@ public class UserDAO {
 		UserDTO data = null;
 		if(uDTO.getSearchCondition().equals("로그인")) {
 			conn = JDBCUtil.connect();
-
 			try {
 				pstmt = conn.prepareStatement(SELECTONE);
 				pstmt.setString(1, uDTO.getId());
@@ -77,7 +76,6 @@ public class UserDAO {
 			}
 		}else if(uDTO.getSearchCondition().equals("유저조회")) {
 			conn = JDBCUtil.connect();
-
 			try {
 				pstmt = conn.prepareStatement(USER_SELECT);
 				pstmt.setInt(1, uDTO.getIdx());

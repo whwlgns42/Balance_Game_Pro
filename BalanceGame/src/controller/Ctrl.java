@@ -217,6 +217,7 @@ public class Ctrl {
 						questionDTO.setSearchCondition("문제보기");
 						questionDTO.setQid(cDtos.get(i).getQuest_idx());
 						datas.add(questionDAO.selectOne(questionDTO));
+						
 					}
 
 					// 뷰에게 지문리스트 전달해 출력(뷰)
