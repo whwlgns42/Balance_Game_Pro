@@ -107,8 +107,6 @@ public class Ctrl {
 					// 문제풀기 선택시
 					// 밸런스 게임 - > 문제 끝내기 선택
 
-					System.out.println(total);
-					System.out.println(successList.size());
 					if (successList.size() >= total) {
 						userView.finish();
 						break;
