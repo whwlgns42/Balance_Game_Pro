@@ -315,6 +315,7 @@ public class Ctrl {
 				// 5.회원 탈퇴
 				userView.printTrue();
 				userDAO.delete(loginINFO);
+				loginINFO = null;
 			}
 
 		}
