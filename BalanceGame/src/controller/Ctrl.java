@@ -42,6 +42,7 @@ public class Ctrl {
 		for (UserCommentDTO data : comments) {
 			UserDTO user = new UserDTO();
 			user.setIdx(data.getUser_idx());
+			user.setSearchCondition("유저조회");
 			user = userDAO.selectOne(user);
 			data.setUserId(user.getId());
 			data.setUserName(user.getName());
@@ -284,7 +285,7 @@ public class Ctrl {
 				// 로그인 선택시
 				// 뷰에게 아이디,비밀번호 받기 (뷰)
 				UserDTO dto = userView.signIn();
-
+				dto.setSearchCondition("로그인");
 				// 모델에게 selectOne (유저모델)
 				dto = userDAO.selectOne(dto);
 				if (dto == null) {
