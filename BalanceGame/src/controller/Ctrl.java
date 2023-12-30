@@ -97,6 +97,7 @@ public class Ctrl {
 			// 3.로그인
 			// 4.로그아웃[로그인]
 			// 5.회원 탈퇴[로그인]
+			userView.loginStatus(loginINFO);
 			userView.printMenu();
 			userView.printUserMenu();
 			if (loginINFO == null) {//로그인 안되어 있을때 뷰
