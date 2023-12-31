@@ -9,15 +9,26 @@ import java.util.ArrayList;
 import model.Util.JDBCUtil;
 
 public class UserCommentDAO {
-    Connection conn;	// 
+    Connection conn;
     PreparedStatement pstmt;
 
-    final String SELECTONE = "SELECT IDX, QUEST_IDX, USER_IDX, USER_COMMENT, REG_DATE FROM USER_COMMENTS WHERE IDX = ?";
-    final String SELECTALL = "SELECT IDX, QUEST_IDX, USER_IDX, USER_COMMENT, REG_DATE FROM USER_COMMENTS"; // 모든 댓글을 가져오는 쿼리
+    // TODO SELECT_ONE : 하나의 댓글 조회
+    final String SELECT_ONE = "SELECT IDX, QUEST_IDX, USER_IDX, USER_COMMENT, REG_DATE FROM USER_COMMENTS WHERE IDX = ?";
+    
+   // TODO SELECT_ALL : 모든 댓글을 가져오는 쿼리
+    final String SELECT_ALL = "SELECT IDX, QUEST_IDX, USER_IDX, USER_COMMENT, REG_DATE FROM USER_COMMENTS"; // 모든 댓글을 가져오는 쿼리
+   
+    // TODO INSERT: 유저가 댓글작성
     final String INSERT = "INSERT INTO USER_COMMENTS (IDX,QUEST_IDX, USER_IDX, USER_COMMENT) VALUES ((SELECT NVL(MAX(IDX),0) + 1 FROM USER_COMMENTS),?, ?, ?)";
+   
+    // TODO UPDATE : 댓글 정보 수정 (추후 구현 예정)
     final String UPDATE = "UPDATE USER_COMMENTS SET QUEST_IDX = ?, USER_IDX = ?, USER_COMMENT = ? WHERE IDX = ?";
+   
+    // TODO DELETE : 댓글삭제
     final String DELETE = "DELETE FROM USER_COMMENTS WHERE IDX = ?";
-    final String SELECT_BY_QUESTION = "SELECT * FROM USER_COMMENTS WHERE QUEST_IDX = ?";
+    
+    // TODO SELECT_BY_QUESTION : 문제 번호로 댓글정보 조회하기
+    final String SELECT_BY_QUESTION = "SELECT IDX, QUEST_IDX, USER_IDX, USER_COMMENT, REG_DATE FROM USER_COMMENTS WHERE QUEST_IDX = ?";
 
     public boolean insert(UserCommentDTO udto) {
         conn = JDBCUtil.connect();
@@ -134,7 +145,7 @@ public class UserCommentDAO {
         conn = JDBCUtil.connect();
 
         try {
-            pstmt = conn.prepareStatement(SELECTONE);
+            pstmt = conn.prepareStatement(SELECT_ONE);
             pstmt.setInt(1, udto.getIdx());
             ResultSet rs = pstmt.executeQuery();
 

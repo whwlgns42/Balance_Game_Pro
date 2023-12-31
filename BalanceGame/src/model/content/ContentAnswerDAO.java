@@ -15,13 +15,23 @@ public class ContentAnswerDAO {
 	private PreparedStatement pstmt;
 	private ResultSet rs;
 
-	final String SELECTALL = "SELECT IDX, USER_IDX, QUEST_IDX, CONTENT, REG_DATE FROM USER_ANSWERS";
+	// TODO SELECTALL : 유저가 문제의 답변 전체 조회
+	final String SELECT_ALL = "SELECT IDX, USER_IDX, QUEST_IDX, CONTENT, REG_DATE FROM USER_ANSWERS";
+	
+	// TODO INSERT : 문제를 풀때 유저의 정보와 문제번호, 문제의 답변을 저장
 	final String INSERT = "INSERT INTO USER_ANSWERS (IDX,USER_IDX, QUEST_IDX, CONTENT) VALUES ((SELECT NVL(MAX(IDX),0) + 1 FROM USER_ANSWERS),?, ?, ?)";
-	final String SELECTONE = "SELECT IDX, USER_IDX, QUEST_IDX, CONTENT, REG_DATE FROM USER_ANSWERS WHERE USER_IDX = ? AND QUEST_IDX=?";
+	
+	// TODO SELECT_ONE : 문제번호와 유저의 정보로 이용한 유저가 문제를 풀었는지 안풀었는지 확인 여부
+	final String SELECT_ONE = "SELECT IDX, USER_IDX, QUEST_IDX, CONTENT, REG_DATE FROM USER_ANSWERS WHERE USER_IDX = ? AND QUEST_IDX=?";
+	
+	// TODO MY_ANSWER : 유저테이블, 문제답변 테이블을 조인해서 나의 답변이 달렸는지 확인 
 	final String MY_ANSWER = "SELECT DISTINCT USER_ANSWERS.QUEST_IDX FROM USERS JOIN USER_ANSWERS ON users.IDX = USER_ANSWERS.USER_IDX WHERE USERS.IDX = ? ";
-	final String AGE_SELECT = "SELECT COUNT(*) AS RESULT_A FROM USER_ANSWERS JOIN USERS ON USERS.IDX = USER_ANSWERS.USER_IDX WHERE CONTENT = 'A' AND USERS.age BETWEEN ? AND ? AND USER_ANSWERS.QUEST_IDX = ?";
-	final String SELECT_COUNT = "SELECT\r\n" + "    COUNT(CASE WHEN CONTENT = 'A' THEN 1 END) AS COUNT_A,\r\n"
-			+ "    COUNT(CASE WHEN CONTENT = 'B' THEN 1 END) AS COUNT_B\r\n" + "FROM USER_ANSWERS WHERE QUEST_IDX=?";
+	
+	// TODO AGE_SELECT : 유저테이블, 유저답변테이블을 조인해서 A라는 답변을단 유저의 나이대별 조회
+	final String AGE_SELECT = "SELECT COUNT(CONTENT) AS RESULT_A FROM USER_ANSWERS JOIN USERS ON USERS.IDX = USER_ANSWERS.USER_IDX WHERE CONTENT = 'A' AND USERS.age BETWEEN ? AND ? AND USER_ANSWERS.QUEST_IDX = ?";
+	
+	// TODO SELECT_COUNT : 문제번호마다 A답변과 B답변의 총 개수 조회하기 
+	final String SELECT_COUNT = "SELECT COUNT(CASE WHEN CONTENT = 'A' THEN 1 END) AS COUNT_A, COUNT(CASE WHEN CONTENT = 'B' THEN 1 END) AS COUNT_B FROM USER_ANSWERS WHERE QUEST_IDX=?";
 
 	public boolean insert(ContentAnswerDTO cdto) {
 		conn = JDBCUtil.connect();
@@ -42,12 +52,12 @@ public class ContentAnswerDAO {
 		}
 	}
 
-	public ArrayList<ContentAnswerDTO> selectAll(ContentAnswerDTO cdto) {
+	public ArrayList<ContentAnswerDTO> selectAll(ContentAnswerDTO cdto) { // TODO 이용자가 풀었던 문제에대한 답변 정보 전체 조회
 		ArrayList<ContentAnswerDTO> datas = new ArrayList<ContentAnswerDTO>();
 		if (cdto.getSearchCondition().equals("전체출력")) {
 			conn = JDBCUtil.connect();
 			try {
-				pstmt = conn.prepareStatement(SELECTALL);
+				pstmt = conn.prepareStatement(SELECT_ALL);
 				rs = pstmt.executeQuery();
 				while (rs.next()) {
 					ContentAnswerDTO data = new ContentAnswerDTO();
@@ -63,7 +73,7 @@ public class ContentAnswerDAO {
 			} finally {
 				JDBCUtil.disconnect(pstmt, conn);
 			}
-		} else if (cdto.getSearchCondition().equals("내답변")) {
+		} else if (cdto.getSearchCondition().equals("내답변")) { // TODO 이용자가 어떤 답변은 했었는지 조회
 			conn = JDBCUtil.connect();
 			try {
 				pstmt = conn.prepareStatement(MY_ANSWER);
@@ -87,13 +97,13 @@ public class ContentAnswerDAO {
 		return datas;
 	}
 
-	public ContentAnswerDTO selectOne(ContentAnswerDTO cdto) {
+	public ContentAnswerDTO selectOne(ContentAnswerDTO cdto) { // TODO 이용자가 문제를 풀었던건지 조회하기
 		ContentAnswerDTO data = null;
 		if (cdto.getSearchCondition().equals("질문탐색")) {
 			data = new ContentAnswerDTO();
 			conn = JDBCUtil.connect();
 			try {
-				pstmt = conn.prepareStatement(SELECTONE);
+				pstmt = conn.prepareStatement(SELECT_ONE);
 				pstmt.setInt(1, cdto.getUser_idx());
 				pstmt.setInt(2, cdto.getQuest_idx());
 				rs = pstmt.executeQuery();
@@ -110,7 +120,7 @@ public class ContentAnswerDAO {
 			} finally {
 				JDBCUtil.disconnect(pstmt, conn);
 			}
-		} else if (cdto.getSearchCondition().equals("나이대별조회")) {
+		} else if (cdto.getSearchCondition().equals("나이대별조회")) { // TODO 추후 구현 예정
 			data = new ContentAnswerDTO();
 			conn = JDBCUtil.connect();
 			try {

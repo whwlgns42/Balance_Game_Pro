@@ -13,9 +13,16 @@ public class QuestionDAO {
 	private Connection conn;
 	private PreparedStatement pstmt;
 
-	private static final String SELECTALL = "SELECT IDX, TITLE, CONTENT_A, CONTENT_B, WRITER, REG_DATE FROM QUESTIONS";
-	private static final String SELECTONE = "SELECT IDX, TITLE, CONTENT_A, CONTENT_B, WRITER, REG_DATE FROM (SELECT * FROM QUESTIONS ORDER BY DBMS_RANDOM.VALUE) WHERE ROWNUM = 1";
+	// TODO SELECT_ALL : 문제의 테이블의 정보를 모두 조회
+	private static final String SELECT_ALL = "SELECT IDX, TITLE, CONTENT_A, CONTENT_B, WRITER, REG_DATE FROM QUESTIONS";
+	
+	// TODO SELECT_ONE : 가져올 문제테이블의 정보를 무작위로 정렬해서 가져와서 맨위에 있는 한개의 행의 데이터만 조회 (랜덤으로 한개의 문제 정보 가져오기)
+	private static final String SELECT_ONE = "SELECT IDX, TITLE, CONTENT_A, CONTENT_B, WRITER, REG_DATE FROM (SELECT * FROM QUESTIONS ORDER BY DBMS_RANDOM.VALUE) WHERE ROWNUM = 1";
+	
+	// TODO SELECT_PK_ONE : 문제번호로 한개의 문제정보 조회하기
 	private static final String SELECT_PK_ONE = "SELECT IDX, TITLE, CONTENT_A, CONTENT_B, WRITER, REG_DATE FROM QUESTIONS WHERE IDX = ?";
+	
+	// TODO INSERT :문제의 정보를 저장
 	private static final String INSERT = "INSERT INTO QUESTIONS(IDX, TITLE, CONTENT_A, CONTENT_B, WRITER)  VALUES((SELECT NVL(MAX(IDX), 0) + 1 FROM QUESTIONS),?,?,?,?)";
 
 	 // 문제 제목만 전체 조회하기
@@ -25,7 +32,7 @@ public class QuestionDAO {
 		if (questionDTO.getSearchCondition().equals("문제전체조회")) {
 			conn = JDBCUtil.connect();
 			try {
-				pstmt = conn.prepareStatement(SELECTALL);
+				pstmt = conn.prepareStatement(SELECT_ALL);
 				ResultSet rs = pstmt.executeQuery();
 				while (rs.next()) {
 					questionData = new QuestionDTO();
@@ -52,7 +59,7 @@ public class QuestionDAO {
 		if (questionDTO.getSearchCondition().equals("문제생성")) {
 			conn = JDBCUtil.connect();
 			try {
-				pstmt = conn.prepareStatement(SELECTONE);
+				pstmt = conn.prepareStatement(SELECT_ONE);
 				ResultSet rs = pstmt.executeQuery();
 
 				if (rs.next()) {
