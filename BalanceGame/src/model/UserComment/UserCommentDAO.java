@@ -90,9 +90,9 @@ public class UserCommentDAO {
         ArrayList<UserCommentDTO> datas = new ArrayList<>();
         conn = JDBCUtil.connect();
         try {
-            pstmt = conn.prepareStatement(SELECT_BY_QUESTION);
-            pstmt.setInt(1, udto.getQuest_idx());
-            ResultSet rs = pstmt.executeQuery();
+            pstmt = conn.prepareStatement(SELECT_BY_QUESTION); // 질문 IDX를 받아와서 같은 IDX를 가진 댓글만 출력
+            pstmt.setInt(1, udto.getQuest_idx());	// 질문idx 입력하기
+            ResultSet rs = pstmt.executeQuery();	
 
             while (rs.next()) {
                 UserCommentDTO comment = new UserCommentDTO();
