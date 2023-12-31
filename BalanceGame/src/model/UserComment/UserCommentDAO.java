@@ -30,6 +30,7 @@ public class UserCommentDAO {
     // TODO SELECT_BY_QUESTION : 문제 번호로 댓글정보 조회하기
     final String SELECT_BY_QUESTION = "SELECT IDX, QUEST_IDX, USER_IDX, USER_COMMENT, REG_DATE FROM USER_COMMENTS WHERE QUEST_IDX = ?";
 
+    // 댓글 추가하기
     public boolean insert(UserCommentDTO udto) {
         conn = JDBCUtil.connect();
         try {
@@ -47,7 +48,7 @@ public class UserCommentDAO {
             JDBCUtil.disconnect(pstmt, conn);
         }
     }
-
+    // 댓글 수정하기
     public boolean update(UserCommentDTO udto) {
         conn = JDBCUtil.connect();
         try {
@@ -66,7 +67,7 @@ public class UserCommentDAO {
             JDBCUtil.disconnect(pstmt, conn);
         }
     }
-
+    // 댓글 삭제하기
     public boolean delete(UserCommentDTO udto) {
         conn = JDBCUtil.connect();
         try {
@@ -82,16 +83,10 @@ public class UserCommentDAO {
             JDBCUtil.disconnect(pstmt, conn);
         }
     }
-
+    // 댓글 전체 출력하기 
     public ArrayList<UserCommentDTO> selectAll(UserCommentDTO udto) {
     	
-    	//찬우님 댓글모델에서 질문 pk로 댓글 selectAll해서 나오게 해주세요
-    	// 일단 pk 따로 생각을 해야함 질문 pk와 댓글 pk가 같도록 이걸 묶어서 출력해야함
-    	// 질문 pk를 받아온다고 생각하고 댓글 pk를 테이블끼리 묶어야하나? 그래서 출력하면 질문에 맞는 댓글이 나오게
-    	// 아니 그러면 여러개 댓글을 달면 댓글 pk는 계속 변해서 pk가 동일하게는 못맞춰줌
-    	// 어케 그 질문에 그 댓글을 할수 있을까?
-    	// 질문 테이블에서 pk가져오고 댓글에서 질문pk 이너조인 해서 받아온다
-    	
+
         ArrayList<UserCommentDTO> datas = new ArrayList<>();
         conn = JDBCUtil.connect();
         try {
@@ -116,30 +111,7 @@ public class UserCommentDAO {
         return datas;
     }
     	
-    	
-//        ArrayList<UserCommentDTO> datas = new ArrayList<>();
-//        conn = JDBCUtil.connect();
-//        try {
-//            pstmt = conn.prepareStatement(SELECTALL);
-//            ResultSet rs = pstmt.executeQuery();
-//
-//            while (rs.next()) {
-//                UserCommentDTO comment = new UserCommentDTO();
-//                comment.setIdx(rs.getInt("IDX"));
-//                comment.setQuest_idx(rs.getInt("QUEST_IDX"));
-//                comment.setUser_idx(rs.getInt("USER_IDX"));
-//                comment.setUser_comment(rs.getString("USER_COMMENT"));
-//                datas.add(comment);
-//            }
-//            rs.close();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } finally {
-//            JDBCUtil.disconnect(pstmt, conn);
-//        }
-//        return datas;
-//    }
-
+    // 댓글 하나 출력하기 (지금은 사용x)
     public UserCommentDTO selectOne(UserCommentDTO udto) {
         UserCommentDTO data = null;
         conn = JDBCUtil.connect();
