@@ -12,8 +12,8 @@ public class UserCommentDAO {
     Connection conn;	// 
     PreparedStatement pstmt;
 
-    final String SELECTONE = "SELECT * FROM USER_COMMENTS WHERE IDX = ?";
-    final String SELECTALL = "SELECT * FROM USER_COMMENTS"; // 모든 댓글을 가져오는 쿼리
+    final String SELECTONE = "SELECT IDX, QUEST_IDX, USER_IDX, USER_COMMENT, REG_DATE FROM USER_COMMENTS WHERE IDX = ?";
+    final String SELECTALL = "SELECT IDX, QUEST_IDX, USER_IDX, USER_COMMENT, REG_DATE FROM USER_COMMENTS"; // 모든 댓글을 가져오는 쿼리
     final String INSERT = "INSERT INTO USER_COMMENTS (IDX,QUEST_IDX, USER_IDX, USER_COMMENT) VALUES ((SELECT NVL(MAX(IDX),0) + 1 FROM USER_COMMENTS),?, ?, ?)";
     final String UPDATE = "UPDATE USER_COMMENTS SET QUEST_IDX = ?, USER_IDX = ?, USER_COMMENT = ? WHERE IDX = ?";
     final String DELETE = "DELETE FROM USER_COMMENTS WHERE IDX = ?";

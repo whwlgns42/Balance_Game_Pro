@@ -12,9 +12,9 @@ public class UserDAO {
     private Connection conn;
     private PreparedStatement pstmt;
     
-    private static final String SELECTALL = "SELECT * FROM USERS";
-    private static final String SELECTONE = "SELECT * FROM USERS WHERE ID=?";
-    private static final String USER_SELECT = "SELECT * FROM USERS WHERE IDX=?";
+    private static final String SELECTALL = "SELECT IDX, ID, PW, NAME, GRADE, GENDER , AGE, REG_DATE FROM USERS";
+    private static final String SELECTONE = "SELECT IDX, ID, PW, NAME, GRADE, GENDER , AGE, REG_DATE FROM USERS WHERE ID=?";
+    private static final String USER_SELECT = "SELECT IDX, ID, PW, NAME, GRADE, GENDER , AGE, REG_DATE FROM USERS WHERE IDX=?";
     private static final String INSERT = "INSERT INTO USERS (IDX, ID, PW, NAME, GRADE, GENDER, AGE) VALUES ((SELECT NVL(MAX(IDX),0) + 1 FROM USERS),?,?,?,?,?,?)";
     private static final String UPDATE = "UPDATE USERS SET ID=?, PW=?, NAME=?, GRADE=?, GENDER=?, AGE=? WHERE IDX=?";
     private static final String DELETE = "DELETE FROM USERS WHERE IDX=?";
