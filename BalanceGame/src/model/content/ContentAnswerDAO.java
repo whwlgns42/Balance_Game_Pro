@@ -33,7 +33,7 @@ public class ContentAnswerDAO {
 	// TODO SELECT_COUNT : 문제번호마다 A답변과 B답변의 총 개수 조회하기 
 	final String SELECT_COUNT = "SELECT COUNT(CASE WHEN CONTENT = 'A' THEN 1 END) AS COUNT_A, COUNT(CASE WHEN CONTENT = 'B' THEN 1 END) AS COUNT_B FROM USER_ANSWERS WHERE QUEST_IDX=?";
 
-	public boolean insert(ContentAnswerDTO cdto) {
+	public boolean insert(ContentAnswerDTO cdto) { 	// TODO INSERT : 문제를 풀때 유저의 정보와 문제번호, 문제의 답변을 저장
 		conn = JDBCUtil.connect();
 		try {
 			pstmt = conn.prepareStatement(INSERT);

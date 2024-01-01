@@ -25,7 +25,7 @@ public class QuestionDAO {
 	// TODO INSERT :문제의 정보를 저장
 	private static final String INSERT = "INSERT INTO QUESTIONS(IDX, TITLE, CONTENT_A, CONTENT_B, WRITER)  VALUES((SELECT NVL(MAX(IDX), 0) + 1 FROM QUESTIONS),?,?,?,?)";
 
-	 // 문제 제목만 전체 조회하기
+	 // 문제의 테이블의 정보를 모두 조회
 	public ArrayList<QuestionDTO> selectAll(QuestionDTO questionDTO) {
 		ArrayList<QuestionDTO> datas = new ArrayList<QuestionDTO>();
 		QuestionDTO questionData = null;
@@ -53,7 +53,7 @@ public class QuestionDAO {
 
 	}
 
-	// 문제생성
+	// 가져올 문제테이블의 정보를 무작위로 정렬해서 가져와서 맨위에 있는 한개의 행의 데이터만 조회
 	public QuestionDTO selectOne(QuestionDTO questionDTO) { 
 		QuestionDTO data = null;
 		if (questionDTO.getSearchCondition().equals("문제생성")) {

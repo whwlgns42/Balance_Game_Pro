@@ -12,11 +12,22 @@ public class UserDAO {
     private Connection conn;
     private PreparedStatement pstmt;
     
-    private static final String SELECTALL = "SELECT IDX, ID, PW, NAME, GRADE, GENDER , AGE, REG_DATE FROM USERS";
-    private static final String SELECTONE = "SELECT IDX, ID, PW, NAME, GRADE, GENDER , AGE, REG_DATE FROM USERS WHERE ID=?";
+    // TODO SELECT_ALL : 유저의 모든 정보를 조회
+    private static final String SELECT_ALL = "SELECT IDX, ID, PW, NAME, GRADE, GENDER , AGE, REG_DATE FROM USERS";
+    
+    // TODO SELECT_ONE : 유저 로그인 계정 조회 (로그인)
+    private static final String SELECT_ONE = "SELECT IDX, ID, PW, NAME, GRADE, GENDER , AGE, REG_DATE FROM USERS WHERE ID=?";
+    
+    // TODO USER_SELECT : 유저의 번호로 유저 정보 조회 (댓글 정보 들고오기위해 사용 )
     private static final String USER_SELECT = "SELECT IDX, ID, PW, NAME, GRADE, GENDER , AGE, REG_DATE FROM USERS WHERE IDX=?";
+    
+    // TODO INSERT : 회원가입시 유전의 정보를 저장하는 쿼리 (추후 구현 예정)
     private static final String INSERT = "INSERT INTO USERS (IDX, ID, PW, NAME, GRADE, GENDER, AGE) VALUES ((SELECT NVL(MAX(IDX),0) + 1 FROM USERS),?,?,?,?,?,?)";
+    
+    // TODO INSERT : 유저의 개인정보를 수정하는 쿼리 (추후 구현 예정)
     private static final String UPDATE = "UPDATE USERS SET ID=?, PW=?, NAME=?, GRADE=?, GENDER=?, AGE=? WHERE IDX=?";
+    
+    // TODO DELETE : 회원 탈퇴하는 쿼리
     private static final String DELETE = "DELETE FROM USERS WHERE IDX=?";
 
 
@@ -24,7 +35,7 @@ public class UserDAO {
 		ArrayList<UserDTO> datas = new ArrayList<UserDTO>();
 		conn = JDBCUtil.connect();
 		try {
-			pstmt = conn.prepareStatement(SELECTALL);
+			pstmt = conn.prepareStatement(SELECT_ALL);
 			ResultSet rs = pstmt.executeQuery();
 
 			while (rs.next()) {
@@ -53,7 +64,7 @@ public class UserDAO {
 		if(uDTO.getSearchCondition().equals("로그인")) {
 			conn = JDBCUtil.connect();
 			try {
-				pstmt = conn.prepareStatement(SELECTONE);
+				pstmt = conn.prepareStatement(SELECT_ONE);
 				pstmt.setString(1, uDTO.getId());
 				ResultSet rs = pstmt.executeQuery();
 
@@ -104,7 +115,7 @@ public class UserDAO {
 
 	}
 
-	private boolean insert(UserDTO uDTO) { // 추가
+	private boolean insert(UserDTO uDTO) { // 회원가입 (추후 구현 예정)
 		conn = JDBCUtil.connect();
 
 		try {
@@ -129,7 +140,7 @@ public class UserDAO {
 		return true;
 	}
 
-	public boolean update(UserDTO uDTO) { // 변경
+	public boolean update(UserDTO uDTO) { // 개인정보 변경 (추후 구현 예정)
 		conn = JDBCUtil.connect();
 		try {
 			pstmt = conn.prepareStatement(UPDATE);
@@ -152,7 +163,7 @@ public class UserDAO {
 		return true;
 	}
 
-	public boolean delete(UserDTO uDTO) { // 삭제
+	public boolean delete(UserDTO uDTO) { // 회원탈퇴
 		conn = JDBCUtil.connect();
 		try {
 			pstmt = conn.prepareStatement(DELETE);
