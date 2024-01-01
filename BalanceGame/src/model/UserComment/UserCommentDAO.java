@@ -48,7 +48,7 @@ public class UserCommentDAO {
             JDBCUtil.disconnect(pstmt, conn);
         }
     }
-    // 댓글 수정하기
+    // 댓글 수정하기 TODO 추후 구현 예정
     public boolean update(UserCommentDTO udto) {
         conn = JDBCUtil.connect();
         try {
@@ -67,7 +67,7 @@ public class UserCommentDAO {
             JDBCUtil.disconnect(pstmt, conn);
         }
     }
-    // 댓글 삭제하기
+    // 댓글 삭제하기 TODO 추후 구현 예정
     public boolean delete(UserCommentDTO udto) {
         conn = JDBCUtil.connect();
         try {
@@ -111,7 +111,7 @@ public class UserCommentDAO {
         return datas;
     }
     	
-    // 댓글 하나 출력하기 (지금은 사용x)
+    // 댓글 하나 출력하기 TODO 추후 구현 예정
     public UserCommentDTO selectOne(UserCommentDTO udto) {
         UserCommentDTO data = null;
         conn = JDBCUtil.connect();

@@ -17,19 +17,19 @@ public class ContentAnswerDAO {
 
 	// TODO SELECTALL : 유저가 문제의 답변 전체 조회
 	final String SELECT_ALL = "SELECT IDX, USER_IDX, QUEST_IDX, CONTENT, REG_DATE FROM USER_ANSWERS";
-	
+
 	// TODO INSERT : 문제를 풀때 유저의 정보와 문제번호, 문제의 답변을 저장
 	final String INSERT = "INSERT INTO USER_ANSWERS (IDX,USER_IDX, QUEST_IDX, CONTENT) VALUES ((SELECT NVL(MAX(IDX),0) + 1 FROM USER_ANSWERS),?, ?, ?)";
-	
+
 	// TODO SELECT_ONE : 문제번호와 유저의 정보로 이용한 유저가 문제를 풀었는지 안풀었는지 확인 여부
 	final String SELECT_ONE = "SELECT IDX, USER_IDX, QUEST_IDX, CONTENT, REG_DATE FROM USER_ANSWERS WHERE USER_IDX = ? AND QUEST_IDX=?";
-	
-	// TODO MY_ANSWER : 유저테이블, 문제답변 테이블을 조인해서 나의 답변이 달렸는지 확인 
+
+	// TODO MY_ANSWER : 유저테이블, 문제답변 테이블을 조인해서 내가 풀었던 문제 중복 제거한 후 나의 답변 조회
 	final String MY_ANSWER = "SELECT DISTINCT USER_ANSWERS.QUEST_IDX FROM USERS JOIN USER_ANSWERS ON users.IDX = USER_ANSWERS.USER_IDX WHERE USERS.IDX = ? ";
-	
-	// TODO AGE_SELECT : 유저테이블, 유저답변테이블을 조인해서 A라는 답변을단 유저의 나이대별 조회
+
+	// TODO AGE_SELECT : 유저테이블, 유저답변테이블을 조인해서 A라는 답변을단 유저의 나이대별 조회 (추후 구현 예정)
 	final String AGE_SELECT = "SELECT COUNT(CONTENT) AS RESULT_A FROM USER_ANSWERS JOIN USERS ON USERS.IDX = USER_ANSWERS.USER_IDX WHERE CONTENT = 'A' AND USERS.age BETWEEN ? AND ? AND USER_ANSWERS.QUEST_IDX = ?";
-	
+
 	// TODO SELECT_COUNT : 문제번호마다 A답변과 B답변의 총 개수 조회하기 
 	final String SELECT_COUNT = "SELECT COUNT(CASE WHEN CONTENT = 'A' THEN 1 END) AS COUNT_A, COUNT(CASE WHEN CONTENT = 'B' THEN 1 END) AS COUNT_B FROM USER_ANSWERS WHERE QUEST_IDX=?";
 
@@ -125,7 +125,7 @@ public class ContentAnswerDAO {
 			conn = JDBCUtil.connect();
 			try {
 				pstmt = conn.prepareStatement(AGE_SELECT);
-				pstmt.setInt(1, cdto.getMinAge()); // 나이
+				pstmt.setInt(1, cdto.getMinAge()); 
 				pstmt.setInt(2, cdto.getMaxAge());
 				pstmt.setInt(3, cdto.getQuest_idx());
 				rs = pstmt.executeQuery();
